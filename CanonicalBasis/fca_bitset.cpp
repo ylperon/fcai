@@ -151,12 +151,20 @@ void FCA::BitSet::flip()
 
 bool FCA::BitSet::is_subset_of(const FCA::BitSet &a) const 
 { 
-    return (m_bs - a.m_bs).none();
+    for (size_t i = 0; i < m_bs.size(); ++i)
+    {
+        if (!a.m_bs.test(i) && m_bs.test(i))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool FCA::BitSet::is_proper_subset_of(const FCA::BitSet &a) const
 { 
-    return (m_bs - a.m_bs).none() && m_bs != a.m_bs;
+    return is_subset_of(a) && m_bs != a.m_bs;
 }
 
 size_t FCA::BitSet::size() const 
@@ -208,7 +216,7 @@ FCA::BitSet FCA::operator -(const FCA::BitSet &a, const FCA::BitSet &b)
     return tmp -= b;
 }
 
-FCA::BitSet FCA::operator s&(const FCA::BitSet &a, const FCA::BitSet &b)
+FCA::BitSet FCA::operator &(const FCA::BitSet &a, const FCA::BitSet &b)
 {
     BitSet tmp(a);
     return tmp &= b;

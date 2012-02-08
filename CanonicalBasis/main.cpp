@@ -86,7 +86,7 @@ void RunBasisBuilderSpeedTest(string inputFileName, string outputFileName)
 
     ofstream output(outputFileName.c_str());
 
-    output << "canonical base algorithm: " << ganterAlgorithm << endl
+    /*output << "canonical base algorithm: " << ganterAlgorithm << endl
            << "closure function: " << clName << endl;
     SpeedTestUsingGanter<FCA::Closure>(fileNames, output, clName);
     output << endl;
@@ -99,7 +99,7 @@ void RunBasisBuilderSpeedTest(string inputFileName, string outputFileName)
     output << "canonical base algorithm: " << ganterAlgorithm << endl
            << "closure function: " << lciName << endl;
     SpeedTestUsingGanter<FCA::LinClosureImproved>(fileNames, output, lciName);
-    output << endl;
+    output << endl;*/
     
     output << "canonical base optimized algorithm: " << ganterOptimizedAlgorithm << endl
            << "closure function: " << clName << endl;
@@ -333,8 +333,8 @@ int main()
 
     try
     {
-        //RunReadAndPrintTest("input.txt", "output.txt");
-        RunBasisBuilderSpeedTest("filenames.txt", "speedtestContext.txt");
+        //RunReadAndPrintTest("contexts/zoo.cxt", "test_res/output.txt");
+        RunBasisBuilderSpeedTest("test_res/filenames.txt", "test_res/speedtestContext.txt");
         //RunCloseFunctionSpeedTest("filenamesImplAll.txt", "speedtestImpl_rev.txt", 1000, true);
         //RunBasisBuilderIdentityTest("fileNamesContext.txt", "identitytestContext.txt");
         //RunCloseFunctionIdentityTest("filenamesImpl.txt", "identitytestImpl.txt");
