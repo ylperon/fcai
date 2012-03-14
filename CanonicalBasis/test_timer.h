@@ -3,7 +3,12 @@
 # ifdef WIN32
 # include <windows.h>
 # else
+# ifdef __unix__
+# include <sys/resource.h>
+# include <cstddef> //for size_t
+# else 
 # include <ctime>
+# endif // __unix__
 # endif //WIN32
 
 # ifndef TEST_TIMER_H_
@@ -25,7 +30,11 @@ private:
     DWORD_PTR oldMask;
     LARGE_INTEGER timeStart;
 # else
+# ifdef __unix__
+    timeval timeStart;
+# else
     time_t timeStart;
+# endif // __unix__
 # endif //WIN32
 };
 
