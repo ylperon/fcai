@@ -42,6 +42,10 @@ void ReadContextAndPrintDGBasisUsingGanter(std::istream &input, std::ofstream &o
 template <typename CloseFunction>
 void ReadContextAndPrintDGBasisUsingGanterOptimized(std::istream &input, std::ofstream &output, const std::string &cfName);
 
+void ReadContextAndPrintDGBasisUsingAttrIncremental(std::istream &input, std::ofstream &output);
+
+void SpeedTestUsingAttrIncremental(std::vector<std::string> fileNames, std::ofstream &output);
+
 template <typename CloseFunction>
 void SpeedTestUsingGanter(std::vector<std::string> fileNames, std::ofstream &output,
                           const std::string &cfName);

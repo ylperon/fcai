@@ -43,8 +43,9 @@ namespace FCA
         BitSet &operator -=(const BitSet &a);
         BitSet &operator &=(const BitSet &a);
 
-        bool operator ==(const BitSet &a);
-        bool operator !=(const BitSet &a);
+        bool operator ==(const BitSet &a) const;
+        bool operator !=(const BitSet &a) const;
+        bool operator <(const BitSet &a) const;
 
     private:
 # ifdef BOOST_BITSET_ON

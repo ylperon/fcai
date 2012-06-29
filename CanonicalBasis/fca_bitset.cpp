@@ -84,14 +84,19 @@ FCA::BitSet &FCA::BitSet::operator &=(const FCA::BitSet &a)
     return *this; 
 }
 
-bool FCA::BitSet::operator ==(const FCA::BitSet &a) 
+bool FCA::BitSet::operator ==(const FCA::BitSet &a) const
 {
     return m_bs == a.m_bs; 
 }
 
-bool FCA::BitSet::operator !=(const FCA::BitSet &a) 
+bool FCA::BitSet::operator !=(const FCA::BitSet &a) const
 {
     return m_bs != a.m_bs; 
+}
+
+bool FCA::BitSet::operator < (const FCA::BitSet &a) const
+{
+    return m_bs < a.m_bs;
 }
 
 FCA::BitSet FCA::operator -(const FCA::BitSet &a, const FCA::BitSet &b)

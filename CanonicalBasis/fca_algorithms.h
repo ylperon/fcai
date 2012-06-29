@@ -9,5 +9,6 @@
 # include "fca_object_incremental.h"
 # include "fca_mingen.h"
 # include "fca_minimization.h"
+# include "fca_attribute_incremental.h"
 
 # endif //FCA_ALGORITHMS_H_

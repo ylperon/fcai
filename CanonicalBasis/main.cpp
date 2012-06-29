@@ -38,10 +38,10 @@ void RunReadAndPrintTest(string inputFileName, string outputFileName)
     input.close();
     output << endl;*/
 
-    input.open(inputFileName.c_str());
+    /*input.open(inputFileName.c_str());
     ReadContextAndPrintDGBasisUsingGanterOptimized<FCA::Closure>(input, output, clName);
     input.close();
-    output << endl;
+    output << endl;*/
 
     /*input.open(inputFileName.c_str());
     ReadContextAndPrintDGBasisUsingGanterOptimized<FCA::LinClosure>(input, output, lcName);
@@ -67,6 +67,12 @@ void RunReadAndPrintTest(string inputFileName, string outputFileName)
     ReadContextAndPrintDGBasisUsingMinGen1(input, output);
     input.close();
     output << endl;*/
+
+    input.open(inputFileName.c_str());
+    std::cout << (input.is_open() ? "file open" : "file not open") << std::endl;
+    ReadContextAndPrintDGBasisUsingAttrIncremental(input, output);
+    input.close();
+    output << endl;
     
     output.close();
 }
@@ -77,7 +83,8 @@ void RunBasisBuilderSpeedTest(string inputFileName, string outputFileName)
     std::string lcName("LinClosure");	
     std::string lciName("LinClosureImproved");
     string ganterAlgorithm("Ganter");
-    string ganterOptimizedAlgorithm("Ganter optimized");	
+    string ganterOptimizedAlgorithm("Ganter optimized");
+    string attributeIncrementalAlgorithm("Attribute incremental algorithm");
 
     vector<string> fileNames;
     ifstream input(inputFileName.c_str());	
@@ -127,6 +134,10 @@ void RunBasisBuilderSpeedTest(string inputFileName, string outputFileName)
     /*output << "MinGen1 algorithm:" << endl;
     SpeedTestUsingMinGen1(fileNames, output);
     output << endl;*/
+
+    output << "canonical base optimized algorithm: " << attributeIncrementalAlgorithm << endl;
+    SpeedTestUsingAttrIncremental(fileNames, output);
+    output << endl;
     
     output.close();
 }
@@ -329,18 +340,19 @@ int main()
 {
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
+#endif    
 
     try
     {
-        //RunReadAndPrintTest("contexts/zoo.cxt", "test_res/output.txt");
+        //RunReadAndPrintTest("contexts/breast-w.cxt", "test_res/output.txt");
         RunBasisBuilderSpeedTest("test_res/filenames.txt", "test_res/speedtestContext.txt");
         //RunCloseFunctionSpeedTest("filenamesImplAll.txt", "speedtestImpl_rev.txt", 1000, true);
         //RunBasisBuilderIdentityTest("fileNamesContext.txt", "identitytestContext.txt");
         //RunCloseFunctionIdentityTest("filenamesImpl.txt", "identitytestImpl.txt");
         //RunProperReadAndPrintTest("input.txt", "output.txt");
         //RunBuildBasisAndCloseSetTest("filenamesContextAll.txt", "speedtestOper.txt", 0.5, 1000);
-        //RunBuildBasisAndCloseSetOptTest("filenamesContextAll.txt", "speedtestOperOpt.txt", 0.5, 1000);
+        //RunBuildBasisAndCloseSetOptTest("filenamesContextAll.txt", "speedtestOperOpt.txt", 0.5, 1000);        
+
     }	
     catch (std::exception &exc)
     {

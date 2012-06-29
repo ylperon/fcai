@@ -501,3 +501,43 @@ void BuildBasisAndCloseSetOpt(std::vector<std::string> fileNames, std::ofstream 
     }
     output << std::endl;
 }
+
+void ReadContextAndPrintDGBasisUsingAttrIncremental(std::istream &input, std::ofstream &output)
+{
+    FCA::Context cntx;
+    ReadContext(cntx, input);
+
+    std::vector<FCA::ImplicationInd> impsBool;
+    std::vector<FCA::Implication> imps;
+
+    /*std::cout << "Ganter" << " " << cfName << std::endl;*/
+    std::cout << "Attribute incremental" << std::endl;
+
+    impsBool = FCA::ComputeDGBasisAttrIncremental(cntx);	
+    imps = FCA::Convert(impsBool, cntx.getAttributes());
+    
+    PrintImplications(output, imps);
+}
+
+void SpeedTestUsingAttrIncremental(std::vector<std::string> fileNames, std::ofstream &output)                                   
+{
+    std::ifstream input;	
+    for (size_t fileInd = 0; fileInd < fileNames.size(); ++fileInd)
+    {
+        input.open(fileNames[fileInd].c_str());
+        FCA::Context context;
+
+        ReadContext(context, input);
+        input.close();
+
+        std::cout << "Attribute incremental" << " \"" << fileNames[fileInd] << '\"';
+
+        Timer timer;
+        timer.StartTiming();
+        std::vector<FCA::ImplicationInd> implications = FCA::ComputeDGBasisAttrIncremental(context);		
+        timer.StopTiming();
+
+        output << fileInd + 1 << ". " << Time(timer.GetUserSeconds()) << " " << implications.size() << std::endl;
+        std::cout << " complete in " << Time(timer.GetUserSeconds()) << " " << implications.size() << " implications" << std::endl;		
+    }
+}
