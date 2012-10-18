@@ -87,6 +87,12 @@
     <ClInclude Include="fca_attribute_incremental.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fca_context_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fca_context_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fca_bitset.cpp">
@@ -140,19 +146,10 @@
     <ClCompile Include="fca_proper_premises.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main14.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main22.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main23.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main24.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="fca_attribute_incremental.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fca_context_string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

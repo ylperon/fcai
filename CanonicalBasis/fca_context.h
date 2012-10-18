@@ -1,64 +1,60 @@
-# pragma once
-
 # ifndef FCA_CONTEXT_H_
 # define FCA_CONTEXT_H_
 
 # include <vector>
 
-# include "fca_definitions.h"
+# include "fca_context_interface.h"
 
 namespace FCA
 {
-    class Context
+    class Context : public FCA::ContextInterface
     {
-    protected:
-        std::vector<Object> m_objects;
-        std::vector<std::vector<size_t> > m_objectsIntent;
-        std::vector<Attribute> m_attributes;
-        std::vector<std::vector<size_t> > m_attributesExtent;
-        std::vector<BitSet> m_table;
-        std::vector<BitSet> m_tableT;
-        size_t m_objCnt;
-        size_t m_attrCnt;
-
-        void CheckAttributeCnt(const size_t attrCnt) const;
-        void CheckObjectCnt(const size_t objCnt) const;
-        void CheckAttributeInd(const size_t attrInd) const;
-        void CheckObjectInd(const size_t objInd) const;
-
     public:
-        Context() {}
-        Context(const std::vector<Object> &iObjects, const std::vector<Attribute> &iAttributes, const std::vector<std::vector<bool> > &iTable);	
-        Context(const std::vector<Object> &iObjects, const std::vector<Attribute> &iAttributes, const std::vector<BitSet> &iTable);
+        Context();
+        Context(const Context &cxt);
+        Context(const size_t &objSize, const size_t &attrSize);
+        explicit Context(const std::vector<std::vector<bool> > &table);
+        explicit Context(const std::vector<FCA::BitSet> &table);
 
-        const std::vector<Object> &getObjects() const	{ return m_objects; }
-        const std::vector<Attribute> &getAttributes() const { return m_attributes; }
-        size_t getObjectsCnt() const { return m_objCnt; }
-        size_t getAttributesCnt() const { return m_attrCnt; }
+        Context &operator =(const Context &cxt);
 
-        size_t getObjectIndex(const Object &obj) const;
-        size_t getAttributeIndex(const Attribute &attr) const;
+        virtual void Set(const size_t &objInd, const size_t &attrInd, const bool &val);
+        virtual bool Get(const size_t &objInd, const size_t &attrInd) const;
 
-        std::vector<Attribute> getObjIntentByIndex(const size_t ind) const;	
-        std::vector<size_t> getObjIntentIndByIndex(const size_t ind) const;
-        BitSet getObjIntentAsBitSetByIndex(const size_t ind) const;
-        std::vector<Attribute> getObjIntent(const std::string &obj) const;
+        virtual size_t SizeObj() const { return mObjSize; }
+        virtual size_t SizeAttr() const { return mAttrSize; }
 
-        std::vector<Object> getAttrExtentByIndex(const size_t ind) const;	
-        std::vector<size_t> getAttrExtentIndByIndex(const size_t ind) const;		
-        BitSet getAttrExtentAsBitSetByIndex(const size_t ind) const;
-        std::vector<Object> getAttrExtent(const std::string &obj) const;
+        virtual BitSet Intent(const size_t &objInd) const;
+        virtual BitSet Extent(const size_t &attrInd) const;
 
-        bool getValueByIndex(size_t indObj, size_t indAttr) const;
-        bool getValue(Object obj, Attribute attr) const;
-        
-        BitSet drvtAttr(const BitSet &current) const;
-        BitSet closeAttr(const BitSet &current) const;
-        std::vector<Attribute> closeAttr(const std::vector<Attribute> &current) const;
-        
-        BitSet drvtObj(const BitSet &current) const;
-        BitSet closeObj(const BitSet &current) const;
-        std::vector<Attribute> closeObj(const std::vector<Object> &current) const;
+        virtual BitSet DrvtAttr(const BitSet &current) const;
+        virtual BitSet ClosureAttr(const BitSet &current) const;
+
+        virtual BitSet DrvtObj(const BitSet &current) const;
+        virtual BitSet ClosureObj(const BitSet &current) const;
+
+        virtual ~Context() throw() { ;; }
+
+    protected:
+        inline static void CheckRangeAndThrowError(const size_t &ind, const size_t &limit, const char *message)
+        {
+            if (ind >= limit)
+            {
+                throw std::out_of_range(message);
+            }
+        }        
+        inline static void CheckSetSizeAndThrowError(const size_t &size, const size_t &ethalon, const char *message)
+        {
+            if (size == ethalon)
+            {
+                throw std::invalid_argument(message);
+            }
+        }
+
+        size_t mObjSize;
+        size_t mAttrSize;
+        std::vector<FCA::BitSet> mTable;
+        std::vector<FCA::BitSet> mTableTr;
     };
 };
 

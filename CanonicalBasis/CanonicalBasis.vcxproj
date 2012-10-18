@@ -84,6 +84,8 @@
     <ClInclude Include="fca_concept.h" />
     <ClInclude Include="fca_config.h" />
     <ClInclude Include="fca_context.h" />
+    <ClInclude Include="fca_context_interface.h" />
+    <ClInclude Include="fca_context_string.h" />
     <ClInclude Include="fca_datastructures.h" />
     <ClInclude Include="fca_definitions.h" />
     <ClInclude Include="fca_ganter.h" />
@@ -109,6 +111,7 @@
     <ClCompile Include="fca_bitset.cpp" />
     <ClCompile Include="fca_closure.cpp" />
     <ClCompile Include="fca_context.cpp" />
+    <ClCompile Include="fca_context_string.cpp" />
     <ClCompile Include="fca_ganter.cpp" />
     <ClCompile Include="fca_ganter_optimized.cpp" />
     <ClCompile Include="fca_impec.cpp" />
@@ -123,22 +126,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="main14.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="main22.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="main23.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="main24.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="test_functions.cpp" />
     <ClCompile Include="test_time.cpp" />
     <ClCompile Include="test_timer.cpp" />
