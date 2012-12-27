@@ -16,8 +16,8 @@ namespace FCA
         virtual size_t SizeObj() const = 0;
         virtual size_t SizeAttr() const = 0;
     
-        virtual BitSet Intent(const size_t &objInd) const = 0;
-        virtual BitSet Extent(const size_t &attrInd) const = 0;
+        virtual const BitSet& Intent(const size_t &objInd) const = 0;
+        virtual const BitSet& Extent(const size_t &attrInd) const = 0;
     
         virtual BitSet DrvtAttr(const BitSet &current) const = 0;
         virtual BitSet ClosureAttr(const BitSet &current) const = 0;

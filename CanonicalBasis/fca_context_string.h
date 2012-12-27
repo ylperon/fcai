@@ -27,10 +27,10 @@ namespace FCA
         ContextString &operator =(const ContextString &cxt);
 
         void SetObjName(const size_t &objInd, const std::string &name);
-        std::string GetObjName(const size_t &objInd) const;
+        const std::string& GetObjName(const size_t &objInd) const;
 
         void SetAttrName(const size_t &attrInd, const std::string &name);
-        std::string GetAttrName(const size_t &attrInd) const;
+        const std::string& GetAttrName(const size_t &attrInd) const;
 
         virtual ~ContextString() throw();
 

@@ -130,14 +130,14 @@ bool Context::Get(const size_t &objInd, const size_t &attrInd) const
     return mTable[objInd].test(attrInd);
 }
 
-BitSet Context::Intent(const size_t &objInd) const
+const BitSet& Context::Intent(const size_t &objInd) const
 {
     CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in Context::Intent");
 
     return mTable[objInd];
 }
 
-BitSet Context::Extent(const size_t &attrInd) const
+const BitSet& Context::Extent(const size_t &attrInd) const
 {
     CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in Context::Extent");
 

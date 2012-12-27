@@ -4,6 +4,7 @@
 # include <vector>
 
 # include "fca_context_interface.h"
+# include "fca_bitset.h"
 
 namespace FCA
 {
@@ -24,8 +25,8 @@ namespace FCA
         virtual size_t SizeObj() const { return mObjSize; }
         virtual size_t SizeAttr() const { return mAttrSize; }
 
-        virtual BitSet Intent(const size_t &objInd) const;
-        virtual BitSet Extent(const size_t &attrInd) const;
+        virtual const BitSet& Intent(const size_t &objInd) const;
+        virtual const BitSet& Extent(const size_t &attrInd) const;
 
         virtual BitSet DrvtAttr(const BitSet &current) const;
         virtual BitSet ClosureAttr(const BitSet &current) const;
