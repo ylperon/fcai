@@ -2,6 +2,8 @@
 
 # include <stdexcept>
 
+# include "fca_bitset.h"
+
 using namespace FCA;
 
 Context::Context() : mObjSize(0),
@@ -99,6 +101,8 @@ Context &Context::operator=(const Context &cxt)
     mAttrSize = cxt.mAttrSize;
     mTable = cxt.mTable;
     mTableTr = cxt.mTableTr;
+
+    return *this;
 }
 
 void Context::Set(const size_t &objInd, const size_t &attrInd, const bool &val)

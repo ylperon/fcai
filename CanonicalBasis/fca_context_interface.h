@@ -3,10 +3,9 @@
 
 # include <cstddef>
 
-# include "fca_bitset.h"
-
 namespace FCA
 {
+    class BitSet;
 
     class ContextInterface
     {
