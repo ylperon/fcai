@@ -5,20 +5,20 @@ using namespace FCA;
 ContextString::ContextString()
     : Context() {}
 
-ContextString::ContextString(const Context &cxt)
+ContextString::ContextString(const Context& cxt)
     : Context(cxt),
     mObjName(cxt.SizeObj()),
     mAttrName(cxt.SizeAttr()) {}
 
-ContextString::ContextString(const size_t &objSize, const size_t &attrSize)
+ContextString::ContextString(const size_t& objSize, const size_t& attrSize)
     : Context(objSize, attrSize),
     mObjName(objSize),
     mAttrName(attrSize) {}
 
-ContextString::ContextString(const size_t &objSize,
-                             const size_t &attrSize,
-                             const std::vector<std::string> &objName,
-                             const std::vector<std::string> &attrName)
+ContextString::ContextString(const size_t& objSize,
+                             const size_t& attrSize,
+                             const std::vector<std::string>& objName,
+                             const std::vector<std::string>& attrName)
                              : Context(objSize, attrSize),
                              mObjName(objName),
                              mAttrName(attrName)
@@ -31,14 +31,14 @@ ContextString::ContextString(const size_t &objSize,
                               "const std::vector<std::string>&, const std::vector<std::string>&)");
 }
 
-ContextString::ContextString(const std::vector<std::vector<bool> > &table)
+ContextString::ContextString(const std::vector<std::vector<bool> >& table)
     : Context(table),
     mObjName(mObjSize),
     mAttrName(mAttrSize) {}
 
-ContextString::ContextString(const std::vector<std::vector<bool> > &table,
-                             const std::vector<std::string> &objName,
-                             const std::vector<std::string> &attrName)
+ContextString::ContextString(const std::vector<std::vector<bool> >& table,
+                             const std::vector<std::string>& objName,
+                             const std::vector<std::string>& attrName)
                              : Context(table),
                              mObjName(objName),
                              mAttrName(attrName)
@@ -53,14 +53,14 @@ ContextString::ContextString(const std::vector<std::vector<bool> > &table,
                              "const std::vector<std::string>&)");
 }
 
-ContextString::ContextString(const std::vector<FCA::BitSet> &table)
+ContextString::ContextString(const std::vector<FCA::BitSet>& table)
     : Context(table),
     mObjName(mObjSize),
     mAttrName(mAttrSize) {}
 
-ContextString::ContextString(const std::vector<FCA::BitSet> &table,
-                             const std::vector<std::string> &objName,
-                             const std::vector<std::string> &attrName)
+ContextString::ContextString(const std::vector<FCA::BitSet>& table,
+                             const std::vector<std::string>& objName,
+                             const std::vector<std::string>& attrName)
                              : Context(table),
                              mObjName(objName),
                              mAttrName(attrName)
@@ -96,7 +96,7 @@ void ContextString::SetObjName(const size_t& objInd, const std::string& name)
     mObjName[objInd] = name;
 }
 
-const std::string& ContextString::GetObjName(const size_t &objInd) const
+const std::string& ContextString::GetObjName(const size_t& objInd) const
 {
     CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in "
                             "ContextString::GetObjName(const size_t&)");
@@ -110,7 +110,7 @@ void ContextString::SetAttrName(const size_t& attrInd, const std::string& name)
     mAttrName[attrInd] = name;
 }
 
-const std::string& ContextString::GetAttrName(const size_t &attrInd) const
+const std::string& ContextString::GetAttrName(const size_t& attrInd) const
 {
     CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in "
                             "ContextString::GetAttrName(const size_t&)");

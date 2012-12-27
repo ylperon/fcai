@@ -9,13 +9,13 @@ using namespace FCA;
 Context::Context() : mObjSize(0),
                      mAttrSize(0) {}
 
-Context::Context(const Context &cxt) : mObjSize(cxt.mObjSize), 
+Context::Context(const Context& cxt) : mObjSize(cxt.mObjSize), 
                                         mAttrSize(cxt.mAttrSize), 
                                         mTable(cxt.mTable), 
                                         mTableTr(cxt.mTableTr) {}
 
-Context::Context(const size_t &objSize, 
-                 const size_t &attrSize) : mObjSize(objSize),
+Context::Context(const size_t& objSize, 
+                 const size_t& attrSize) : mObjSize(objSize),
                                            mAttrSize(attrSize)
 {
     mTable.resize(objSize);
@@ -33,7 +33,7 @@ Context::Context(const size_t &objSize,
     }
 }
 
-Context::Context(const std::vector<std::vector<bool> > &table)
+Context::Context(const std::vector<std::vector<bool> >& table)
     : mObjSize(table.size())
 {
     mAttrSize = table.empty() ? 0 : table.front().size();
@@ -65,7 +65,7 @@ Context::Context(const std::vector<std::vector<bool> > &table)
     }
 }
 
-Context::Context(const std::vector<BitSet> &table)
+Context::Context(const std::vector<BitSet>& table)
     : mObjSize(table.size()),
       mTable(table)
 {
@@ -90,7 +90,7 @@ Context::Context(const std::vector<BitSet> &table)
     }
 }
 
-Context &Context::operator=(const Context &cxt)
+Context& Context::operator=(const Context& cxt)
 {
     if (&cxt == this)
     {
@@ -105,7 +105,7 @@ Context &Context::operator=(const Context &cxt)
     return *this;
 }
 
-void Context::Set(const size_t &objInd, const size_t &attrInd, const bool &val)
+void Context::Set(const size_t& objInd, const size_t& attrInd, const bool& val)
 {
     CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in Context::Set");
     CheckRangeAndThrowError(attrInd, mAttrSize,  "attribute index out of range in Context::Set");
@@ -122,7 +122,7 @@ void Context::Set(const size_t &objInd, const size_t &attrInd, const bool &val)
     }
 }
 
-bool Context::Get(const size_t &objInd, const size_t &attrInd) const
+bool Context::Get(const size_t& objInd, const size_t& attrInd) const
 {
     CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in Context::Get");
     CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in Context::Get");
@@ -130,21 +130,21 @@ bool Context::Get(const size_t &objInd, const size_t &attrInd) const
     return mTable[objInd].test(attrInd);
 }
 
-const BitSet& Context::Intent(const size_t &objInd) const
+const BitSet& Context::Intent(const size_t& objInd) const
 {
     CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in Context::Intent");
 
     return mTable[objInd];
 }
 
-const BitSet& Context::Extent(const size_t &attrInd) const
+const BitSet& Context::Extent(const size_t& attrInd) const
 {
     CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in Context::Extent");
 
     return mTableTr[attrInd];
 }
 
-BitSet Context::DrvtAttr(const BitSet &current) const
+BitSet Context::DrvtAttr(const BitSet& current) const
 {
     CheckSetSizeAndThrowError(current.size(), mAttrSize, "wrong set size in Context::DrvtAttr");
 
@@ -160,14 +160,14 @@ BitSet Context::DrvtAttr(const BitSet &current) const
     return res;
 }
 
-BitSet Context::ClosureAttr(const BitSet &current) const
+BitSet Context::ClosureAttr(const BitSet& current) const
 {
     CheckSetSizeAndThrowError(current.size(), mAttrSize, "wrong set size in Context::ClosureAttr");
 
     return DrvtObj(DrvtAttr(current));
 }
 
-BitSet Context::DrvtObj(const BitSet &current) const
+BitSet Context::DrvtObj(const BitSet& current) const
 {
     CheckSetSizeAndThrowError(current.size(), mObjSize, "wrong set size in Context::DrvtObj");
 
@@ -183,7 +183,7 @@ BitSet Context::DrvtObj(const BitSet &current) const
     return res;
 }
 
-BitSet Context::ClosureObj(const BitSet &current) const
+BitSet Context::ClosureObj(const BitSet& current) const
 {
     CheckSetSizeAndThrowError(current.size(), mObjSize, "wrong set size in Context::ClosureObj");
 
