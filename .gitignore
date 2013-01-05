@@ -96,5 +96,4 @@ Backup*/
 UpgradeLog*.XML
 
 bm3.7.0/
-contexts/
 test_res/
