@@ -3,6 +3,7 @@
 
 # include <vector>
 # include <string>
+# include <cstdio>
 
 # include "fca_context.h"
 
@@ -38,6 +39,9 @@ namespace FCA
         std::vector<std::string> mObjName;
         std::vector<std::string> mAttrName;
     };
+
+    void Read(FILE* input, ContextString& cxt);
+    void Write(FILE* output, const ContextString& cxt);
 };
 
 # endif //FCA_CONTEXT_STRING_H_
