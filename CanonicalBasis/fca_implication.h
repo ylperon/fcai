@@ -13,8 +13,8 @@ namespace FCA
     public:
         Implication();
         Implication(const Implication& impl);
-        Implication(const size_t& sizePremise, const size_t& sizeConclusion);
-        explicit Implication(const size_t& size);
+        Implication(const size_t& sizePremiseBase, const size_t& sizeConclusionBase);
+        explicit Implication(const size_t& sizeBase);
         Implication(const BitSet& premise, const BitSet& conclusion);
         explicit Implication(const BitSet& bs);
 

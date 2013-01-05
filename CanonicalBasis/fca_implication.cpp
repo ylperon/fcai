@@ -6,14 +6,14 @@ FCA::Implication::Implication(const Implication& impl)
     : mPremise(impl.mPremise),
       mConclusion(impl.mConclusion) {}
 
-FCA::Implication::Implication(const size_t& sizePremise, 
-                              const size_t& sizeConclusion)
-    : mPremise(sizePremise),
-      mConclusion(sizeConclusion) {}
+FCA::Implication::Implication(const size_t& sizeBasePremise, 
+                              const size_t& sizeBaseConclusion)
+    : mPremise(sizeBasePremise),
+      mConclusion(sizeBaseConclusion) {}
 
-FCA::Implication::Implication(const size_t& size)
-    : mPremise(size),
-      mConclusion(size) {}
+FCA::Implication::Implication(const size_t& sizeBase)
+    : mPremise(sizeBase),
+      mConclusion(sizeBase) {}
 
 FCA::Implication::Implication(const FCA::BitSet& premise, 
                               const FCA::BitSet& conclusion)
