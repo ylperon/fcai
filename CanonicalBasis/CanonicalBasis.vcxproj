@@ -91,7 +91,8 @@
     <ClInclude Include="fca_ganter.h" />
     <ClInclude Include="fca_ganter_optimized.h" />
     <ClInclude Include="fca_impec.h" />
-    <ClInclude Include="fca_implications.h" />
+    <ClInclude Include="fca_implication.h" />
+    <ClInclude Include="fca_implication_interface.h" />
     <ClInclude Include="fca_linclosure.h" />
     <ClInclude Include="fca_linclosure_improved.h" />
     <ClInclude Include="fca_mingen.h" />
@@ -115,7 +116,7 @@
     <ClCompile Include="fca_ganter.cpp" />
     <ClCompile Include="fca_ganter_optimized.cpp" />
     <ClCompile Include="fca_impec.cpp" />
-    <ClCompile Include="fca_implications.cpp" />
+    <ClCompile Include="fca_implication.cpp" />
     <ClCompile Include="fca_linclosure.cpp" />
     <ClCompile Include="fca_linclosure_improved.cpp" />
     <ClCompile Include="fca_mingen.cpp" />

@@ -51,9 +51,6 @@
     <ClInclude Include="fca_impec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fca_implications.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="fca_linclosure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -93,6 +90,12 @@
     <ClInclude Include="fca_context_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fca_implication_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fca_implication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fca_bitset.cpp">
@@ -111,9 +114,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fca_impec.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="fca_implications.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fca_linclosure.cpp">
@@ -150,6 +150,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fca_context_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fca_implication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
