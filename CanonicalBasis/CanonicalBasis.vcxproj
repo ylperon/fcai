@@ -82,6 +82,7 @@
     <ClInclude Include="fca_closure.h" />
     <ClInclude Include="fca_closure_operators.h" />
     <ClInclude Include="fca_concept.h" />
+    <ClInclude Include="fca_concept_interface.h" />
     <ClInclude Include="fca_config.h" />
     <ClInclude Include="fca_context.h" />
     <ClInclude Include="fca_context_interface.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="fca_attribute_incremental.cpp" />
     <ClCompile Include="fca_bitset.cpp" />
     <ClCompile Include="fca_closure.cpp" />
+    <ClCompile Include="fca_concept.cpp" />
     <ClCompile Include="fca_context.cpp" />
     <ClCompile Include="fca_context_string.cpp" />
     <ClCompile Include="fca_ganter.cpp" />

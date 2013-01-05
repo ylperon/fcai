@@ -3,38 +3,32 @@
 # ifndef FCA_CONCEPT_H_
 # define FCA_CONCEPT_H_
 
-# include "fca_definitions.h"
+# include "fca_concept_interface.h"
+# include "fca_bitset.h"
 
 namespace FCA
 {
-    class Concept
+    class Concept : public ConceptInterface
     {
-    protected:
-        std::vector<Object> m_extent;
-        std::vector<Attribute> m_intent;
     public:
         Concept() {}
-        Concept(const std::vector<Object> &iExtent, const std::vector<Attribute> &iIntent) : m_extent(iExtent), m_intent(iIntent) {}
+        Concept(const Concept& c);
+        Concept(const size_t objSize, const size_t attrSize);
+        Concept(const BitSet &extent, const BitSet& intent);
 
-        std::vector<Object> &Extent() { return m_extent; }
-        const std::vector<Object> &eExtent() const { return m_extent; }
-        std::vector<Attribute> &Intent() { return m_intent; }
-        const std::vector<Attribute> &Intent() const { return m_intent; }
-    };
+        virtual const BitSet& Extent() const;
+        virtual BitSet& Extent();
+        virtual size_t SizeExtent() const;
 
-    class ConceptInd
-    {
+        virtual const BitSet& Intent() const;
+        virtual BitSet& Intent();
+        virtual size_t SizeIntent() const;
+
+        virtual ~Concept() throw() { ;; }
+
     protected:
-        BitSet m_extent;
-        BitSet m_intent;
-    public:
-        ConceptInd() {}
-        ConceptInd(const BitSet &iExtent, const BitSet &iIntent) : m_extent(iExtent), m_intent(iIntent) {}
-
-        BitSet &Extent() { return m_extent; }
-        const BitSet &Extent() const { return m_extent; }
-        BitSet &Intent() { return m_intent; }
-        const BitSet &Intent() const { return m_intent; }
+        BitSet mExtent;
+        BitSet mIntent;
     };
 };
 
