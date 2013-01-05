@@ -36,7 +36,7 @@ FCA::BitSet& FCA::Implication::Premise()
 
 size_t FCA::Implication::SizePremise() const
 {
-    return mPremise.size();
+    return mPremise.count();
 }
 
 const FCA::BitSet& FCA::Implication::Conclusion() const
@@ -51,7 +51,7 @@ FCA::BitSet& FCA::Implication::Conclusion()
 
 size_t FCA::Implication::SizeConclusion() const
 {
-    return mConclusion.size();
+    return mConclusion.count();
 }
 
 void FCA::Implication::Complete()
