@@ -12,15 +12,15 @@ namespace FCA
     class ImplicationInterface
     {
     public:
-        virtual const BitSet& Premise() const;
-        virtual BitSet& Premise();
-        virtual size_t SizePremise() const;
+        virtual const BitSet& Premise() const = 0;
+        virtual BitSet& Premise() = 0;
+        virtual size_t SizePremise() const = 0;
 
-        virtual const BitSet& Conclusion() const;
-        virtual BitSet& Conclusion();
-        virtual size_t SizeConclusion() const;
+        virtual const BitSet& Conclusion() const = 0;
+        virtual BitSet& Conclusion() = 0;
+        virtual size_t SizeConclusion() const = 0;
 
-        virtual void Complete();
+        virtual void Complete() = 0;
 
         virtual ~ImplicationInterface() throw() { ;; }
     };
