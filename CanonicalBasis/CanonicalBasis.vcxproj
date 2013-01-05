@@ -104,8 +104,8 @@
     </ClInclude>
     <ClInclude Include="fca_utility.h" />
     <ClInclude Include="test_functions.h" />
-    <ClInclude Include="test_time.h" />
     <ClInclude Include="test_timer.h" />
+    <ClInclude Include="test_time_profiler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fca_attribute_incremental.cpp" />
@@ -128,8 +128,8 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test_functions.cpp" />
-    <ClCompile Include="test_time.cpp" />
     <ClCompile Include="test_timer.cpp" />
+    <ClCompile Include="test_time_profiler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

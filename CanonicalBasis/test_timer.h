@@ -19,7 +19,7 @@ class Timer
 public:
     void StartTiming();
     void StopTiming();
-    double GetUserSeconds() const { return value; };
+    double GetUserSeconds() const { return value; }
     long long GetUserTicks() const { return ticks; }
 
 private:	
