@@ -1,3 +1,5 @@
+# pragma once
+
 # ifndef FCA_CONTEXT_STRING_H_
 # define FCA_CONTEXT_STRING_H_
 
@@ -33,7 +35,7 @@ namespace FCA
         void SetAttrName(const size_t& attrInd, const std::string& name);
         const std::string& GetAttrName(const size_t& attrInd) const;
 
-        virtual ~ContextString() throw();
+        virtual ~ContextString() throw() { ;; }
 
     protected:
         std::vector<std::string> mObjName;

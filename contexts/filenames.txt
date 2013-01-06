@@ -1,0 +1,18 @@
+17
+10x100, 25--25 (6).cxt
+10x100, 50--50 (2).cxt
+18x18, 18--18 (0).cxt
+20x100, 25--25 (6).cxt
+20x100, 50--50 (2).cxt
+50x100, 10.cxt
+100x30, 4--4.cxt
+100x50, 4--4.cxt
+900x100, 4--4 (2).cxt
+breast-cancer.cxt
+breast-w.cxt
+dbdata0.cxt
+flare.cxt
+post-operative.cxt
+SPECT.cxt
+vote.cxt
+zoo.cxt

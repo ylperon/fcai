@@ -46,7 +46,7 @@ namespace FCA
         }        
         inline static void CheckSetSizeAndThrowError(const size_t& size, const size_t& ethalon, const char* message)
         {
-            if (size == ethalon)
+            if (size != ethalon)
             {
                 throw std::invalid_argument(message);
             }

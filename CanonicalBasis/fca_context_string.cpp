@@ -3,28 +3,26 @@
 # include <cstring>
 # include <stdexcept>
 
-using namespace FCA;
-
-ContextString::ContextString()
+FCA::ContextString::ContextString()
     : Context() {}
 
-ContextString::ContextString(const Context& cxt)
+FCA::ContextString::ContextString(const FCA::Context& cxt)
     : Context(cxt),
     mObjName(cxt.SizeObj()),
     mAttrName(cxt.SizeAttr()) {}
 
-ContextString::ContextString(const size_t& objSize, const size_t& attrSize)
-    : Context(objSize, attrSize),
+FCA::ContextString::ContextString(const size_t& objSize, const size_t& attrSize)
+    : FCA::Context(objSize, attrSize),
     mObjName(objSize),
     mAttrName(attrSize) {}
 
-ContextString::ContextString(const size_t& objSize,
-                             const size_t& attrSize,
-                             const std::vector<std::string>& objName,
-                             const std::vector<std::string>& attrName)
-                             : Context(objSize, attrSize),
-                             mObjName(objName),
-                             mAttrName(attrName)
+FCA::ContextString::ContextString(const size_t& objSize,
+                                  const size_t& attrSize,
+                                  const std::vector<std::string>& objName,
+                                  const std::vector<std::string>& attrName)
+    : FCA::Context(objSize, attrSize),
+    mObjName(objName),
+    mAttrName(attrName)
 {
     CheckSetSizeAndThrowError(mObjName.size(), mObjSize, "objects count does not match in "
                               "ContextString::ContextString(const size_t&, const size_t&, "
@@ -34,17 +32,17 @@ ContextString::ContextString(const size_t& objSize,
                               "const std::vector<std::string>&, const std::vector<std::string>&)");
 }
 
-ContextString::ContextString(const std::vector<std::vector<bool> >& table)
-    : Context(table),
+FCA::ContextString::ContextString(const std::vector<std::vector<bool> >& table)
+    : FCA::Context(table),
     mObjName(mObjSize),
     mAttrName(mAttrSize) {}
 
-ContextString::ContextString(const std::vector<std::vector<bool> >& table,
-                             const std::vector<std::string>& objName,
-                             const std::vector<std::string>& attrName)
-                             : Context(table),
-                             mObjName(objName),
-                             mAttrName(attrName)
+FCA::ContextString::ContextString(const std::vector<std::vector<bool> >& table,
+                                  const std::vector<std::string>& objName,
+                                  const std::vector<std::string>& attrName)
+    : FCA::Context(table),
+    mObjName(objName),
+    mAttrName(attrName)
 {
    CheckSetSizeAndThrowError(mObjName.size(), mObjSize, "objects count does not match in "
                              "ContextString::ContextString(const std::vector<std::vector<bool> >&, "
@@ -56,17 +54,17 @@ ContextString::ContextString(const std::vector<std::vector<bool> >& table,
                              "const std::vector<std::string>&)");
 }
 
-ContextString::ContextString(const std::vector<FCA::BitSet>& table)
-    : Context(table),
+FCA::ContextString::ContextString(const std::vector<FCA::BitSet>& table)
+    : FCA::Context(table),
     mObjName(mObjSize),
     mAttrName(mAttrSize) {}
 
-ContextString::ContextString(const std::vector<FCA::BitSet>& table,
-                             const std::vector<std::string>& objName,
-                             const std::vector<std::string>& attrName)
-                             : Context(table),
-                             mObjName(objName),
-                             mAttrName(attrName)
+FCA::ContextString::ContextString(const std::vector<FCA::BitSet>& table,
+                                  const std::vector<std::string>& objName,
+                                  const std::vector<std::string>& attrName)
+    : FCA::Context(table),
+    mObjName(objName),
+    mAttrName(attrName)
 {
    CheckSetSizeAndThrowError(mObjName.size(), mObjSize, "objects count does not match in "
                              "ContextString::ContextString(const std::vector<FCA::BitSet>&, "
@@ -78,7 +76,7 @@ ContextString::ContextString(const std::vector<FCA::BitSet>& table,
                              "const std::vector<std::string>&)");
 }
 
-ContextString& ContextString::operator =(const ContextString& cxt)
+FCA::ContextString& FCA::ContextString::operator =(const FCA::ContextString& cxt)
 {
     if (&cxt == this)
     {
@@ -92,41 +90,41 @@ ContextString& ContextString::operator =(const ContextString& cxt)
     return *this;
 }
 
-void ContextString::SetObjName(const size_t& objInd, const std::string& name)
+void FCA::ContextString::SetObjName(const size_t& objInd, const std::string& name)
 {
     CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in "
                             "ContextString::SetObjName(const size_t&, const std::string&)");
     mObjName[objInd] = name;
 }
 
-const std::string& ContextString::GetObjName(const size_t& objInd) const
+const std::string& FCA::ContextString::GetObjName(const size_t& objInd) const
 {
     CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in "
                             "ContextString::GetObjName(const size_t&)");
     return mObjName[objInd];
 }
 
-void ContextString::SetAttrName(const size_t& attrInd, const std::string& name)
+void FCA::ContextString::SetAttrName(const size_t& attrInd, const std::string& name)
 {
     CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in "
                             "ContextString::SetAttrName(const size_t&, const std::string&)");
     mAttrName[attrInd] = name;
 }
 
-const std::string& ContextString::GetAttrName(const size_t& attrInd) const
+const std::string& FCA::ContextString::GetAttrName(const size_t& attrInd) const
 {
     CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in "
                             "ContextString::GetAttrName(const size_t&)");
     return mAttrName[attrInd];
 }
 
-void Read(FILE* input, ContextString& cxt)
+void FCA::Read(FILE* input, FCA::ContextString& cxt)
 {
     static const size_t MAX_NAME_LENGTH = 100000;
     static char buffer[MAX_NAME_LENGTH];
 
-    fgets(buffer, MAX_NAME_LENGTH, input);
-    if (0 != strncmp("B", buffer, MAX_NAME_LENGTH))
+    fgets(buffer, MAX_NAME_LENGTH, input);    
+    if (0 != strncmp("B\n", buffer, MAX_NAME_LENGTH))
     {
         throw std::runtime_error("in Read(FILE*, ContextString&) \"B\" expected");
     }
@@ -176,7 +174,7 @@ void Read(FILE* input, ContextString& cxt)
     /*
     reading table names
     */
-    std::vector<BitSet> table(objSize, BitSet(attrSize));
+    std::vector<FCA::BitSet> table(objSize, FCA::BitSet(attrSize));
     for (size_t i = 0; i < objSize; ++i)
     {
         if (0 == fgets(buffer, MAX_NAME_LENGTH, input))
@@ -191,7 +189,7 @@ void Read(FILE* input, ContextString& cxt)
                                      "length is different from number of attributes");
         }
 
-        BitSet& objCur = table[i];
+        FCA::BitSet& objCur = table[i];
         for (size_t j = 0; j < attrSize; ++j)
         {
             if ('X' == buffer[j])
@@ -209,7 +207,7 @@ void Read(FILE* input, ContextString& cxt)
     cxt = ContextString(table, obj, attr);
 }
 
-void Write(FILE* output, const ContextString& cxt)
+void FCA::Write(FILE* output, const FCA::ContextString& cxt)
 {
     const size_t objSize = cxt.SizeObj();
     const size_t attrSize = cxt.SizeAttr();

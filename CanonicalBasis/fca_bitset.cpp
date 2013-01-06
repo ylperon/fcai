@@ -68,6 +68,12 @@ size_t FCA::BitSet::count() const
     return mBS.count(); 
 }
 
+FCA::BitSet& FCA::BitSet::operator &=(const FCA::BitSet& a) 
+{
+    mBS &= a.mBS;
+    return *this; 
+}
+
 FCA::BitSet& FCA::BitSet::operator |=(const FCA::BitSet& a) 
 { 
     mBS |= a.mBS; 
@@ -80,10 +86,10 @@ FCA::BitSet& FCA::BitSet::operator -=(const FCA::BitSet& a)
     return *this;
 }
 
-FCA::BitSet& FCA::BitSet::operator &=(const FCA::BitSet& a) 
-{
-    mBS &= a.mBS;
-    return *this; 
+FCA::BitSet& FCA::BitSet::operator ^=(const FCA::BitSet& a) 
+{ 
+    mBS |= a.mBS; 
+    return *this;
 }
 
 size_t FCA::BitSet::findFirst() const

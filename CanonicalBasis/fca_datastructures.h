@@ -5,6 +5,5 @@
 
 # include "fca_context.h"
 # include "fca_concept.h"
-# include "fca_implications.h"
 
 # endif //FCA_DATASTRUCTUERS_H_

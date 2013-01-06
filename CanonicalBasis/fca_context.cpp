@@ -75,7 +75,7 @@ Context::Context(const std::vector<BitSet>& table)
     for (std::vector<BitSet>::iterator it = mTableTr.begin();
          it != mTableTr.end(); ++it)
     {
-        it->resize(mAttrSize);
+        it->resize(mObjSize);
     }
 
     for (size_t objInd = 0; objInd < mObjSize; ++objInd)
