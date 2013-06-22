@@ -4,3 +4,9 @@
 Session.vim
 .netrwhist
 *~
+
+# For Mac OS X. https://github.com/github/gitignore used as the source
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
