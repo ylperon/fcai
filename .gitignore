@@ -1,12 +1,27 @@
-# For Vim. https://github.com/github/gitignore used as the source
+## For Vim. https://github.com/github/gitignore used as the source
 .*.s[a-w][a-z]
 *.un~
 Session.vim
 .netrwhist
 *~
 
-# For Mac OS X. https://github.com/github/gitignore used as the source
+## For Mac OS X. https://github.com/github/gitignore used as the source
 .DS_Store
 .AppleDouble
 .LSOverride
 Icon
+
+## C++ temporary files. https://github.com/github/gitignore used as the source
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
