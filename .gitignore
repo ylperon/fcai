@@ -1,0 +1,6 @@
+# For Vim. https://github.com/github/gitignore used as the source
+.*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
