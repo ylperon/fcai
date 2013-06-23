@@ -87,6 +87,7 @@ namespace FCA
 #include <ctsring>
 
 #include <cassert>
+#include <sstream>
 
 namespace {
     template <typename Block>
@@ -431,4 +432,61 @@ bool BasicBitSet<Block>::operator >(const BasicBitSet<Block>& a, const BasicBitS
 template <typename Block>
 bool BasicBitSet<Block>::operator >=(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
     return b.is_subset_of(a);
+}
+
+template <typename Block>
+BasicBitSet<Block> operator &(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    BasicBitSet<Block> res(a);
+    return res &= b;
+}
+
+template <typename Block>
+BasicBitSet<Block> operator |(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    BasicBitSet<Block> res(a);
+    return res |= b;
+}
+
+template <typename Block>
+BasicBitSet<Block> operator ^(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    BasicBitSet<Block> res(a);
+    return res ^= b;
+}
+
+template <typename Block>
+BasicBitSet<Block> operator -(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    BasicBitSet<Block> res(a);
+    return res -= b;
+}
+
+template <typename Block>
+void ToString(const BasicBitSet<Block>& a, std::string& s, const std::string zero, const std::string one) {
+    const size_t count = a.count();
+    s.resize(one.size() * count + zero.size() * (a.size() - count));
+    size_t pos = 0;
+    for (size_t i = 0; i < a.size(); ++i) {
+        if (a.test(i)) {
+            s.replace(pos, one.size(), one);
+            pos += one.size();
+        }
+        else {
+            s.replace(pos, zero.size(), zero);
+            pos += zero.size();
+        }
+    }
+}
+
+template <typename Block>
+void ToIndList(const BasicBitSet<Block>& a, std::string& s, const std::string& delimiter) {
+    std::stringstream ss;
+    bool empty = true;
+    for (size_t i = 0; i < a.size(); ++i) {
+        if (a.test(i)) {
+            if (!empty) {
+                ss << delimiter;
+            }
+            ss << ind;
+            empty = false;
+        }
+    }
+    s = ss.str();
 }
