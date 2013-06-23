@@ -244,7 +244,7 @@ bool BasicBitSet<Block>::is_subset_of(const BasicBitSet<Block>& a) const {
 }
 
 template <typename Block>
-bool BasicbitSet<Block>::is_proper_subset_of(const BasicBitSet<Block>& a) const {
+bool BasicBitSet<Block>::is_proper_subset_of(const BasicBitSet<Block>& a) const {
     assert(a.length == length);
     bool equal = true;
     for (size_t i = 0; i < bitsSize; ++i) {
@@ -268,5 +268,100 @@ void BasicBitSet<Block>::resize(const size_t length) {
     size_t bitsSizeNew = ::BlocksReqired<Block>(length);
     Block* bitsNew = new Block[bitsSizeNew]();
     memcpy(bitNew, bits, (bitsSize < bitsSizeNew ? bitsSize : bitsSizeNew) * BlockSize);
+    if (0 != bits) {
+        delete [] bits;
+    }
+    bits = bitsNew;
+    bitsSize = bitsSizeNew;
+    this->length = length;
+    full = (bitsSize * BitsPerBlock == length);
+}
+
+template <typename Block>
+size_t BasicBitSet<Block> count() const {
+    size_t res = 0;
+    Block value;
+    for (size_t i = 0; i < bitsSize; ++i) {
+        value = bits[i];
+        for (size_t j = 0; j < BitsPerBlock; ++j, value >>= 1) {
+            res += value & Block(1);
+        }
+    }
+}
+
+template <typename Block>
+size_t BasicBitSet<Block>::count_zeros() const {
+    return length - count();
+}
+
+template <typename Block>
+BasicBitSet<Block>& BasicBitSet<Block>::operator &=(const BasicBitSet<Block>& a) {
+    assert(a.length == length);
+    for (size_t i = 0; i < bitsSize; ++i) {
+        bits[i] &= a.bits[i];
+    }
+    return *this;
+}
+
+template <typename Block>
+BasicBitSet<Block>& BasicBitSet<Block>::operator |=(const BasicBitSet<Block>& a) {
+    assert(a.length == length);
+    for (size_t i = 0; i < bitsSize; ++i) {
+        bits[i] |= a.bits[i];
+    }
+    return *this;
+}
+
+template <typename Block>
+BasicBitSet<Block>& BasicBitSet<Block>::operator ^=(const BasicBitSet<Block>& a) {
+    assert(a.lenght == length);
+    for (size_t i = 0; i < bitsSize; ++i) {
+        bits[i] ^= a.bits[i];
+    }
+    return *this;
+}
+
+template <typename Block>
+BasicBitSet<Block>& BasicBitSet<Block>::operator -=(const BasicBitSet<Block>& a) {
+    assert(a.length == length);
+    for (size_t i = 0; i < bitsSize; ++i) {
+        bits[i] &= ~a.bits[i];
+    }
+    return *this;
+}
+
+template <typename Block>
+size_t BasicBitSet<Block>::findFirst() const {
+    for (size_t i = 0; i < bitsSize; ++i) {
+        if (bits[i] != 0) {
+            for (size_t j = 0; j < BitsPerBlock; ++j) {
+                if (::GetBitVal<Block>(bits[i], j)) {
+                    return i * BitsPerBlock + j;
+                }
+            }
+        }
+    }
+    return npos;
+}
+
+template <typename Block>
+size_t BasicBitSet<Block>::findNext(const size_t pos) const {
+    assert(pos < length);
+    const size_t indBlockStart = pos / BitsPerBlock;
+    for (size_t i = pos % BitsPerBlock + 1; i < BitsPerBlock; ++i) {
+        if (::GetBitVal<Block>(indBlockStart, j)) {
+            return indBlockStart * BitsPerBlock + j;
+        }
+    }
+    for (size_t i = indBlockStart + 1; i < bitsSize; ++i) {
+        if (bits[i] != 0) {
+            for (size_t j = 0; j < BitsPerBlock; ++j) {
+                if (::GetBitVal<Block>(bits[i], j)) {
+                    return i * BitsPerBlock + j;
+                }
+            }
+        }
+    }
+    return npos;
 }
 
