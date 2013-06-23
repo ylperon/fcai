@@ -1,4 +1,4 @@
-# pragma once
+#pragma once
 
 #include <climits>
 
@@ -59,9 +59,10 @@ namespace FCA
         friend bool operator >=(const BasicBitSet& a, const BasicBitSet& b);
 
     private:
-        Block* a;
-        size_t aSize;
+        Block* bits;
+        size_t bitsSize;
         size_t length;
+        bool full;
     };
 
     template <typename Block>
@@ -85,6 +86,8 @@ namespace FCA
 
 #include <ctsring>
 
+#include <cassert>
+
 namespace {
     template <typename Block>
     inline size_t BlocksReqired(const size_t& length) {
@@ -100,8 +103,7 @@ namespace {
     inline size_t BitIndInBlock(const size_t& ind) {
         return ind % BasicBitSet<Block>::BitsPerBlock;
     }
-
-    template <typename Block>
+template <typename Block>
     inline bool GetBitVal(const Block& a, const size_t& ind) {
        return a & (Block(1) << ind);
     }
@@ -120,52 +122,52 @@ namespace {
     inline void FlipBit(Block& a, const size_t& ind) {
         a ^= Block(1) << ind;
     }
+
+    template <typename Block>
+    inline Block GetOnes(const size_t& n) {
+        return (Block(1) << n) - Block(1);
+    }
 }
 
 template<typename Block>
 BasicBitSet<Block>::BasicBitSet(const size_t length) {
     if (0 == length) {
-        a = 0;
-        aSize = 0;
+        bits = 0;
+        bitsSize = 0;
         this->length = 0;
+        full = true;
         return;
     }
 
-    aSize = ::BlocksReqired<Block>(length);
-    a = new Block[aSize]();
-    this->length = length();
+    bitsSize = ::BlocksReqired<Block>(length);
+    bits = new Block[bitsSize]();
+    this->length = length;
+    full = (bitsSize * BitsPerBlock == length);
 }
 
 template <typename Block>
 BasicBitSet<Block>::BasicBitSet(const BasicBitSet<Block>& a) {
-    aSize = a.aSize;
+    bitsSize = a.bitsSize;
     length = a.length;
+    full = a.full;
     if (0 != aSize) {
-        a = new Block[aSize];
-        memcpy(a, a.a, aSize * BlockSize);
+        bits = new Block[bitsSize];
+        memcpy(bits, a.bits, bitsSize * BlockSize);
     }
 }
 
 template <typename Block>
 BasicBitSet<Block>::~BasicBitSet() {
-    if (0 != a) {
-        delete [] a;
+    if (0 != bits) {
+        delete [] bits;
     }
 }
 
 template <typename Block>
 bool BasicBitSet<Block>::any() const {
-    for (size_t i = 0; i + 1 < aSize; ++i) {
-        if (0 != a[i]) {
+    for (size_t i = 0; i + 1 < bitsSize; ++i) {
+        if (0 != bits[i]) {
             return true;
-        }
-    }
-    if (aSize > 1) {
-        const Block& aLast = a[aSize - 1];
-        for (size_t i = 0; i < aSize * BlockSize - length; ++i) {
-            if (::GetBitVal<Block>(aLast, i)) {
-                return true;
-            }
         }
     }
     return false;
@@ -178,37 +180,82 @@ bool BasicBitSet<Block>::none() const {
 
 template <typename Block>
 bool BasicBitSet<Block>::test(const size_t ind) const {
-    return ::GetBitVal<Block>(a[::BlockInd<Block>(ind)], ::BitIndInBlock<Block>(ind));
+    assert(ind < lenght);
+    return ::GetBitVal<Block>(bits[::BlockInd<Block>(ind)], ::BitIndInBlock<Block>(ind));
 }
 
 template <typename Block>
 void BasicBitSet<Block>::set(const size_t ind) {
-    ::SetOneBit<Block>(a[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
+    assert(ind < length);
+    ::SetOneBit<Block>(bits[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
 }
 
 template <typename Block>
 void BasicBitSet<Block>::set() {
-    memset(a, 255, aSize * BlockSize);
+    memset(bits, 255, bitsSize * BlockSize);
+    if (!full) {
+        bits[bitsSize - 1] |= ::GetOnes<Block>(length - (bitsSize - 1) * BitsPerBlock);
+    }
 }
 
 template <typename Block>
 void BasicBitSet<Block>::reset(const size_t ind) {
-    ::SetZeroBit<Block>(a[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
+    assert(ind < lenght)
+    ::SetZeroBit<Block>(bits[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
 }
 
 template <typename Block>
 void BasicBitSet<Block>::reset() {
-    memset(a, 0, aSize * BlockSize);
+    memset(bits, 0, bitsSize * BlockSize);
 }
 
 template <typename Block>
 void BasicBitSet<Block>::flip(const size_t ind) {
-    ::FlipBit<Block>(a[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
+    assert(ind < length);
+    ::FlipBit<Block>(bits[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
 }
 
-tempalte <typename Block>
+template <typename Block>
 void BasicBitSet<Block>::flip() {
-    for (size_t i = 0; i < aSize; ++i) {
-        a[i] = ~a[i];
+    for (size_t i = 0; i < bitsSize; ++i) {
+        bits[i] = ~bits[i];
+    }
+    if (!full) {
+        bits[bitsSize - 1] |= ::GetOnes<Block>(length - (bitsSize - 1) * BitsPerBlock);
     }
 }
+
+template <typename Block>
+BasicBitSet<Block> BasicBitSet<Block>::operator ~() const {
+    BasicBitSet res(*this);
+    res.flip();
+    return res;
+}
+
+template <typename Block>
+bool BasicBitSet<Block>::is_subset_of(const BasicBitSet<Block>& a) const {
+    assert(a.length == length);
+    for (size_t i = 0; i < bitsSize; ++i) {
+        if (bits[i] & ~a.bits[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename Block>
+bool BasicbitSet<Block>::is_proper_subset_of(const BasicBitSet<Block>& a) const {
+    assert(a.length == length);
+
+    bool equal = true;
+    for (size_t i = 0; i < bitsSize; ++i) {
+        if (bits[i] & ~a.bits[i]) {
+            return false;
+        }
+        if (bits[i] != a.bits[i]) {
+            equal = false;
+        }
+    }
+    return !equal;
+}
+
