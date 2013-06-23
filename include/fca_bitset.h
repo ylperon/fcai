@@ -365,3 +365,70 @@ size_t BasicBitSet<Block>::findNext(const size_t pos) const {
     return npos;
 }
 
+template <typename Block>
+void BasicBitSet<Block>::swap(BasicBitSet<Block>& a) {
+    Block* dummyBlock = bits;
+    bits = a.bits;
+    a.bits = dummyBlock;
+    size_t dummy = length;
+    length = a.length;
+    a.length = dummy;
+    dummy = bitsSize;
+    bitsSize = a.bitsSize;
+    a.bitsSize = dummy;
+    bool dummyFlag = full;
+    full = a.full;
+    a.full = dummyFlag;
+}
+
+template <typename Block>
+BasicBitSet<Block>& BasicBitSet<Block>::operator =(const BasicBitSet<Block>& a) {
+    if (&a == this) {
+        return *this;
+    }
+
+    if (0 != bits) {
+        delete [] bits;
+    }
+    bitsSize = a.bitsSize;
+    length = a.length;
+    full = a.full;
+    bits = new Block[bitsSize]();
+    memcpy(bits, a.bits, bitsSize);
+}
+
+template <typename Block>
+bool BasicBitSet<Block>::operator ==(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    assert(a.length == b.length);
+    for (size_t i = 0; i < a.bitsSize; ++i) {
+        if (a.bits[i] != b.bitsSize[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename Block>
+bool BasicBitSet<Block>::operator !=(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    return !(a == b);
+}
+
+template <typename Block>
+bool BasicBitSet<Block>::operator <(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    return a.is_proper_subset_of(b)
+}
+
+template <typename Block>
+bool BasicBitSet<Block>::operator <=(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    return a.is_subset_of(b);
+}
+
+template <typename Block>
+bool BasicBitSet<Block>::operator >(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    return b.is_proper_subset_of(a);
+}
+
+template <typename Block>
+bool BasicBitSet<Block>::operator >=(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
+    return b.is_subset_of(a);
+}
