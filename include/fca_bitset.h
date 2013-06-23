@@ -34,7 +34,7 @@ namespace FCA
         bool is_proper_subset_of(const BasicBitSet& a) const;
 
         size_t size() const;
-        void resize(const size_t new_size);
+        void resize(const size_t length);
 
         size_t count() const;
         size_t count_zeros() const
@@ -246,7 +246,6 @@ bool BasicBitSet<Block>::is_subset_of(const BasicBitSet<Block>& a) const {
 template <typename Block>
 bool BasicbitSet<Block>::is_proper_subset_of(const BasicBitSet<Block>& a) const {
     assert(a.length == length);
-
     bool equal = true;
     for (size_t i = 0; i < bitsSize; ++i) {
         if (bits[i] & ~a.bits[i]) {
@@ -257,5 +256,17 @@ bool BasicbitSet<Block>::is_proper_subset_of(const BasicBitSet<Block>& a) const 
         }
     }
     return !equal;
+}
+
+template <typename Block>
+size_t BasicBitSet<Block>::size() const {
+    return length;
+}
+
+template <typename Block>
+void BasicBitSet<Block>::resize(const size_t length) {
+    size_t bitsSizeNew = ::BlocksReqired<Block>(length);
+    Block* bitsNew = new Block[bitsSizeNew]();
+    memcpy(bitNew, bits, (bitsSize < bitsSizeNew ? bitsSize : bitsSizeNew) * BlockSize);
 }
 
