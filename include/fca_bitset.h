@@ -1,33 +1,23 @@
 # pragma once
 
-# ifndef FCA_BITSET_H_
-# define FCA_BITSET_H_
+#include <climits>
 
-# include "fca_config.h"
-
-# include <string>
-# include <climits>
-
-# ifdef BOOST_BITSET_ON
-# include <boost/dynamic_bitset.hpp>
-# endif //BOOST_BITSET_ON
-
-# ifdef MAGIC_BITSET_ON
-# include <src/bm.h>
-# endif //MAGIC_BITSET_ON
+#include <string>
 
 namespace FCA
 {
-    class BitSet
+    template <typename Block = unsigned long>
+    class BasicBitSet
     {
     public:
-# ifdef BOOST_BITSET_ON
-        static const size_t npos = UINT_MAX;
-# endif //BOOST_BITSET_ON
+        static const size_t BlockSize = sizeof(Block);
+        static const size_t BitsPerBlock = BlockSize * 8;
+        static const size_t npos = std::numeric_limits<size_t>::max();
 
-        BitSet(const size_t newSize = 0);
-        BitSet(const BitSet &a);
+        BasicBitSet(const size_t length = 0);
+        BasicBitSet(const BasicBitSet &a);
 
+        bool any() const;
         bool none() const;
         bool test(const size_t ind) const;
 
@@ -35,49 +25,54 @@ namespace FCA
         void set();
         void reset(const size_t ind);
         void reset();
-
+        void flip(const size_t ind);
         void flip();
 
-        bool is_subset_of(const BitSet& a) const;
-        bool is_proper_subset_of(const BitSet& a) const;
+        bool is_subset_of(const BasicBitSet& a) const;
+        bool is_proper_subset_of(const BasicBitSet& a) const;
 
         size_t size() const;
         void resize(const size_t new_size);
 
         size_t count() const;
+        size_t count_zeros() const
 
-        BitSet &operator &=(const BitSet& a);
-        BitSet &operator |=(const BitSet& a);
-        BitSet &operator ^=(const BitSet& a);
-        BitSet &operator -=(const BitSet& a);
+        BasicBitSet &operator &=(const BasicBitSet& a);
+        BasicBitSet &operator |=(const BasicBitSet& a);
+        BasicBitSet &operator ^=(const BasicBitSet& a);
+        BasicBitSet &operator -=(const BasicBitSet& a);
 
         size_t findFirst() const;
         size_t findNext(const size_t pos) const;
 
-        friend bool operator ==(const BitSet& a, const BitSet& b);
-        friend bool operator !=(const BitSet& a, const BitSet& b);
-        friend bool operator <(const BitSet& a, const BitSet& b);
-        friend bool operator <=(const BitSet& a, const BitSet& b);
-        friend bool operator >(const BitSet& a, const BitSet& b);
-        friend bool operator >=(const BitSet& a, const BitSet& b);
+        void swap(BasicBitset& a);
+
+        friend bool operator ==(const BasicBitSet& a, const BasicBitSet& b);
+        friend bool operator !=(const BasicBitSet& a, const BasicBitSet& b);
+        friend bool operator <(const BasicBitSet& a, const BasicBitSet& b);
+        friend bool operator <=(const BasicBitSet& a, const BasicBitSet& b);
+        friend bool operator >(const BasicBitSet& a, const BasicBitSet& b);
+        friend bool operator >=(const BasicBitSet& a, const BasicBitSet& b);
 
     private:
-# ifdef BOOST_BITSET_ON
-        boost::dynamic_bitset<unsigned long> mBS;
-# endif //BOOST_BITSET_ON
-
-# ifdef MAGIC_BITSET_ON
-        bm::bvector<> mBS;
-# endif //MAGIC_BITSET_ON
+        Block* a;
+        size_t aSize;
+        size_t length;
     };
 
-    BitSet operator &(const BitSet& a, const BitSet& b);
-    BitSet operator |(const BitSet& a, const BitSet& b);
-    BitSet operator ^(const BitSet& a, const BitSet& b);
-    BitSet operator -(const BitSet& a, const BitSet& b);
+    template <typename Block>
+    BasicBitSet<Block> operator &(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b);
+    template <typename Block>
+    BasicBitSet<Block> operator |(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b);
+    template <typename Block>
+    BasicBitSet<Block> operator ^(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b);
+    template <typename Block>
+    BasicBitSet<Block> operator -(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b);
 
-    void ToString(const BitSet& a, std::string& s);
-    void ToIndList(const BitSet& a, std::string& s, const std::string& delimiter = " ");
+    template <typename Block>
+    void ToString(const BasicBitSet<Block>& a, std::string& s, const std::string zero = "0", const std::string one = "1");
+    template <typename Block>
+    void ToIndList(const BasicBitSet<Block>& a, std::string& s, const std::string& delimiter = ",");
+
+    typedef BasicBitSet<unsigned long> BitSet;
 };
-
-# endif //FCA_BITSET_H_
