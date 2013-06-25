@@ -5,7 +5,7 @@
 enum TEST_RESULT {
     TEST_RESULT_OK,
     TEST_RESULT_FAIL,
-}
+};
 
 void IncOkFail(const TEST_RESULT res, size_t& ok, size_t& fail) {
     if (TEST_RESULT_OK == res) {

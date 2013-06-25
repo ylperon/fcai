@@ -12,7 +12,7 @@ namespace FCA
     public:
         static const size_t BlockSize = sizeof(Block);
         static const size_t BitsPerBlock = BlockSize * 8;
-        static const size_t npos = std::numeric_limits<size_t>::max();
+        static const size_t npos = SIZE_MAX;
 
         explicit BasicBitSet(const size_t length = 0);
         BasicBitSet(const BasicBitSet &a);
@@ -37,7 +37,7 @@ namespace FCA
         void resize(const size_t length);
 
         size_t count() const;
-        size_t count_zeros() const
+        size_t count_zeros() const;
 
         BasicBitSet& operator &=(const BasicBitSet& a);
         BasicBitSet& operator |=(const BasicBitSet& a);
@@ -51,12 +51,13 @@ namespace FCA
 
         BasicBitSet& operator =(const BasicBitSet& a);
 
-        friend bool operator ==(const BasicBitSet& a, const BasicBitSet& b);
-        friend bool operator !=(const BasicBitSet& a, const BasicBitSet& b);
-        friend bool operator <(const BasicBitSet& a, const BasicBitSet& b);
-        friend bool operator <=(const BasicBitSet& a, const BasicBitSet& b);
-        friend bool operator >(const BasicBitSet& a, const BasicBitSet& b);
-        friend bool operator >=(const BasicBitSet& a, const BasicBitSet& b);
+        bool operator ==(const BasicBitSet& a) const;
+        bool operator !=(const BasicBitSet& a) const;
+
+        bool operator <(const BasicBitSet& a);
+        bool operator <=(const BasicBitSet& a);
+        bool operator >(const BasicBitSet& a);
+        bool operator >=(const BasicBitSet& a);
 
     private:
         Block* bits;
@@ -84,7 +85,7 @@ namespace FCA
 
 /* Realization of templates */
 
-#include <ctsring>
+#include <cstring>
 
 #include <cassert>
 #include <sstream>
@@ -92,17 +93,17 @@ namespace FCA
 namespace {
     template <typename Block>
     inline size_t BlocksReqired(const size_t& length) {
-        return (length + BasicBitSet<Block>::BitsPerBlock - 1) / BasicBitSet<Block>::BitsPerBlock;
+        return (length + FCA::BasicBitSet<Block>::BitsPerBlock - 1) / FCA::BasicBitSet<Block>::BitsPerBlock;
     }
 
-    tempalte <typename Block>
+    template <typename Block>
     inline size_t BlockInd(const size_t& ind) {
-        return ind / BasicBitSet<Block>::BitsPerBlock;
+        return ind / FCA::BasicBitSet<Block>::BitsPerBlock;
     }
 
     template <typename Block>
     inline size_t BitIndInBlock(const size_t& ind) {
-        return ind % BasicBitSet<Block>::BitsPerBlock;
+        return ind % FCA::BasicBitSet<Block>::BitsPerBlock;
     }
 template <typename Block>
     inline bool GetBitVal(const Block& a, const size_t& ind) {
@@ -131,7 +132,7 @@ template <typename Block>
 }
 
 template<typename Block>
-BasicBitSet<Block>::BasicBitSet(const size_t length) {
+FCA::BasicBitSet<Block>::BasicBitSet(const size_t length) {
     if (0 == length) {
         bits = 0;
         bitsSize = 0;
@@ -147,25 +148,25 @@ BasicBitSet<Block>::BasicBitSet(const size_t length) {
 }
 
 template <typename Block>
-BasicBitSet<Block>::BasicBitSet(const BasicBitSet<Block>& a) {
+FCA::BasicBitSet<Block>::BasicBitSet(const FCA::BasicBitSet<Block>& a) {
     bitsSize = a.bitsSize;
     length = a.length;
     full = a.full;
-    if (0 != aSize) {
+    if (0 != bitsSize) {
         bits = new Block[bitsSize];
         memcpy(bits, a.bits, bitsSize * BlockSize);
     }
 }
 
 template <typename Block>
-BasicBitSet<Block>::~BasicBitSet() {
+FCA::BasicBitSet<Block>::~BasicBitSet() {
     if (0 != bits) {
         delete [] bits;
     }
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::any() const {
+bool FCA::BasicBitSet<Block>::any() const {
     for (size_t i = 0; i + 1 < bitsSize; ++i) {
         if (0 != bits[i]) {
             return true;
@@ -175,24 +176,24 @@ bool BasicBitSet<Block>::any() const {
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::none() const {
+bool FCA::BasicBitSet<Block>::none() const {
     return !any();
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::test(const size_t ind) const {
-    assert(ind < lenght);
+bool FCA::BasicBitSet<Block>::test(const size_t ind) const {
+    assert(ind < length);
     return ::GetBitVal<Block>(bits[::BlockInd<Block>(ind)], ::BitIndInBlock<Block>(ind));
 }
 
 template <typename Block>
-void BasicBitSet<Block>::set(const size_t ind) {
+void FCA::BasicBitSet<Block>::set(const size_t ind) {
     assert(ind < length);
     ::SetOneBit<Block>(bits[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
 }
 
 template <typename Block>
-void BasicBitSet<Block>::set() {
+void FCA::BasicBitSet<Block>::set() {
     memset(bits, 255, bitsSize * BlockSize);
     if (!full) {
         bits[bitsSize - 1] |= ::GetOnes<Block>(length - (bitsSize - 1) * BitsPerBlock);
@@ -200,24 +201,24 @@ void BasicBitSet<Block>::set() {
 }
 
 template <typename Block>
-void BasicBitSet<Block>::reset(const size_t ind) {
-    assert(ind < lenght)
+void FCA::BasicBitSet<Block>::reset(const size_t ind) {
+    assert(ind < length);
     ::SetZeroBit<Block>(bits[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
 }
 
 template <typename Block>
-void BasicBitSet<Block>::reset() {
+void FCA::BasicBitSet<Block>::reset() {
     memset(bits, 0, bitsSize * BlockSize);
 }
 
 template <typename Block>
-void BasicBitSet<Block>::flip(const size_t ind) {
+void FCA::BasicBitSet<Block>::flip(const size_t ind) {
     assert(ind < length);
     ::FlipBit<Block>(bits[::BlockInd<Block>(ind)] , ::BitIndInBlock<Block>(ind));
 }
 
 template <typename Block>
-void BasicBitSet<Block>::flip() {
+void FCA::BasicBitSet<Block>::flip() {
     for (size_t i = 0; i < bitsSize; ++i) {
         bits[i] = ~bits[i];
     }
@@ -227,14 +228,14 @@ void BasicBitSet<Block>::flip() {
 }
 
 template <typename Block>
-BasicBitSet<Block> BasicBitSet<Block>::operator ~() const {
+FCA::BasicBitSet<Block> FCA::BasicBitSet<Block>::operator ~() const {
     BasicBitSet res(*this);
     res.flip();
     return res;
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::is_subset_of(const BasicBitSet<Block>& a) const {
+bool FCA::BasicBitSet<Block>::is_subset_of(const FCA::BasicBitSet<Block>& a) const {
     assert(a.length == length);
     for (size_t i = 0; i < bitsSize; ++i) {
         if (bits[i] & ~a.bits[i]) {
@@ -245,7 +246,7 @@ bool BasicBitSet<Block>::is_subset_of(const BasicBitSet<Block>& a) const {
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::is_proper_subset_of(const BasicBitSet<Block>& a) const {
+bool FCA::BasicBitSet<Block>::is_proper_subset_of(const FCA::BasicBitSet<Block>& a) const {
     assert(a.length == length);
     bool equal = true;
     for (size_t i = 0; i < bitsSize; ++i) {
@@ -260,15 +261,15 @@ bool BasicBitSet<Block>::is_proper_subset_of(const BasicBitSet<Block>& a) const 
 }
 
 template <typename Block>
-size_t BasicBitSet<Block>::size() const {
+size_t FCA::BasicBitSet<Block>::size() const {
     return length;
 }
 
 template <typename Block>
-void BasicBitSet<Block>::resize(const size_t length) {
+void FCA::BasicBitSet<Block>::resize(const size_t length) {
     size_t bitsSizeNew = ::BlocksReqired<Block>(length);
     Block* bitsNew = new Block[bitsSizeNew]();
-    memcpy(bitNew, bits, (bitsSize < bitsSizeNew ? bitsSize : bitsSizeNew) * BlockSize);
+    memcpy(bitsNew, bits, (bitsSize < bitsSizeNew ? bitsSize : bitsSizeNew) * BlockSize);
     if (0 != bits) {
         delete [] bits;
     }
@@ -279,7 +280,7 @@ void BasicBitSet<Block>::resize(const size_t length) {
 }
 
 template <typename Block>
-size_t BasicBitSet<Block> count() const {
+size_t FCA::BasicBitSet<Block>::count() const {
     size_t res = 0;
     Block value;
     for (size_t i = 0; i < bitsSize; ++i) {
@@ -291,12 +292,12 @@ size_t BasicBitSet<Block> count() const {
 }
 
 template <typename Block>
-size_t BasicBitSet<Block>::count_zeros() const {
+size_t FCA::BasicBitSet<Block>::count_zeros() const {
     return length - count();
 }
 
 template <typename Block>
-BasicBitSet<Block>& BasicBitSet<Block>::operator &=(const BasicBitSet<Block>& a) {
+FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator &=(const FCA::BasicBitSet<Block>& a) {
     assert(a.length == length);
     for (size_t i = 0; i < bitsSize; ++i) {
         bits[i] &= a.bits[i];
@@ -305,7 +306,7 @@ BasicBitSet<Block>& BasicBitSet<Block>::operator &=(const BasicBitSet<Block>& a)
 }
 
 template <typename Block>
-BasicBitSet<Block>& BasicBitSet<Block>::operator |=(const BasicBitSet<Block>& a) {
+FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator |=(const FCA::BasicBitSet<Block>& a) {
     assert(a.length == length);
     for (size_t i = 0; i < bitsSize; ++i) {
         bits[i] |= a.bits[i];
@@ -314,7 +315,7 @@ BasicBitSet<Block>& BasicBitSet<Block>::operator |=(const BasicBitSet<Block>& a)
 }
 
 template <typename Block>
-BasicBitSet<Block>& BasicBitSet<Block>::operator ^=(const BasicBitSet<Block>& a) {
+FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator ^=(const FCA::BasicBitSet<Block>& a) {
     assert(a.lenght == length);
     for (size_t i = 0; i < bitsSize; ++i) {
         bits[i] ^= a.bits[i];
@@ -323,7 +324,7 @@ BasicBitSet<Block>& BasicBitSet<Block>::operator ^=(const BasicBitSet<Block>& a)
 }
 
 template <typename Block>
-BasicBitSet<Block>& BasicBitSet<Block>::operator -=(const BasicBitSet<Block>& a) {
+FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator -=(const FCA::BasicBitSet<Block>& a) {
     assert(a.length == length);
     for (size_t i = 0; i < bitsSize; ++i) {
         bits[i] &= ~a.bits[i];
@@ -332,7 +333,7 @@ BasicBitSet<Block>& BasicBitSet<Block>::operator -=(const BasicBitSet<Block>& a)
 }
 
 template <typename Block>
-size_t BasicBitSet<Block>::findFirst() const {
+size_t FCA::BasicBitSet<Block>::findFirst() const {
     for (size_t i = 0; i < bitsSize; ++i) {
         if (bits[i] != 0) {
             for (size_t j = 0; j < BitsPerBlock; ++j) {
@@ -346,12 +347,12 @@ size_t BasicBitSet<Block>::findFirst() const {
 }
 
 template <typename Block>
-size_t BasicBitSet<Block>::findNext(const size_t pos) const {
+size_t FCA::BasicBitSet<Block>::findNext(const size_t pos) const {
     assert(pos < length);
     const size_t indBlockStart = pos / BitsPerBlock;
     for (size_t i = pos % BitsPerBlock + 1; i < BitsPerBlock; ++i) {
-        if (::GetBitVal<Block>(indBlockStart, j)) {
-            return indBlockStart * BitsPerBlock + j;
+        if (::GetBitVal<Block>(indBlockStart, i)) {
+            return indBlockStart * BitsPerBlock + i;
         }
     }
     for (size_t i = indBlockStart + 1; i < bitsSize; ++i) {
@@ -367,7 +368,7 @@ size_t BasicBitSet<Block>::findNext(const size_t pos) const {
 }
 
 template <typename Block>
-void BasicBitSet<Block>::swap(BasicBitSet<Block>& a) {
+void FCA::BasicBitSet<Block>::swap(FCA::BasicBitSet<Block>& a) {
     Block* dummyBlock = bits;
     bits = a.bits;
     a.bits = dummyBlock;
@@ -383,7 +384,7 @@ void BasicBitSet<Block>::swap(BasicBitSet<Block>& a) {
 }
 
 template <typename Block>
-BasicBitSet<Block>& BasicBitSet<Block>::operator =(const BasicBitSet<Block>& a) {
+FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator =(const FCA::BasicBitSet<Block>& a) {
     if (&a == this) {
         return *this;
     }
@@ -399,10 +400,10 @@ BasicBitSet<Block>& BasicBitSet<Block>::operator =(const BasicBitSet<Block>& a) 
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::operator ==(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    assert(a.length == b.length);
-    for (size_t i = 0; i < a.bitsSize; ++i) {
-        if (a.bits[i] != b.bitsSize[i]) {
+bool FCA::BasicBitSet<Block>::operator ==(const FCA::BasicBitSet<Block>& a) const {
+    assert(a.length == length);
+    for (size_t i = 0; i < bitsSize; ++i) {
+        if (bits[i] != a.bitsSize[i]) {
             return false;
         }
     }
@@ -410,56 +411,56 @@ bool BasicBitSet<Block>::operator ==(const BasicBitSet<Block>& a, const BasicBit
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::operator !=(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    return !(a == b);
+bool FCA::BasicBitSet<Block>::operator !=(const FCA::BasicBitSet<Block>& a) const {
+    return !(*this == a);
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::operator <(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    return a.is_proper_subset_of(b)
+bool FCA::BasicBitSet<Block>::operator <(const FCA::BasicBitSet<Block>& a) {
+    return is_proper_subset_of(a);
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::operator <=(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    return a.is_subset_of(b);
+bool FCA::BasicBitSet<Block>::operator <=(const FCA::BasicBitSet<Block>& a) {
+    return is_subset_of(a);
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::operator >(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    return b.is_proper_subset_of(a);
+bool FCA::BasicBitSet<Block>::operator >(const FCA::BasicBitSet<Block>& a) {
+    return a.is_proper_subset_of(*this);
 }
 
 template <typename Block>
-bool BasicBitSet<Block>::operator >=(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    return b.is_subset_of(a);
+bool FCA::BasicBitSet<Block>::operator >=(const FCA::BasicBitSet<Block>& a) {
+    return a.is_subset_of(*this);
 }
 
 template <typename Block>
-BasicBitSet<Block> operator &(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    BasicBitSet<Block> res(a);
+FCA::BasicBitSet<Block> operator &(const FCA::BasicBitSet<Block>& a, const FCA::BasicBitSet<Block>& b) {
+    FCA::BasicBitSet<Block> res(a);
     return res &= b;
 }
 
 template <typename Block>
-BasicBitSet<Block> operator |(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    BasicBitSet<Block> res(a);
+FCA::BasicBitSet<Block> operator |(const FCA::BasicBitSet<Block>& a, const FCA::BasicBitSet<Block>& b) {
+    FCA::BasicBitSet<Block> res(a);
     return res |= b;
 }
 
 template <typename Block>
-BasicBitSet<Block> operator ^(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    BasicBitSet<Block> res(a);
+FCA::BasicBitSet<Block> operator ^(const FCA::BasicBitSet<Block>& a, const FCA::BasicBitSet<Block>& b) {
+    FCA::BasicBitSet<Block> res(a);
     return res ^= b;
 }
 
 template <typename Block>
-BasicBitSet<Block> operator -(const BasicBitSet<Block>& a, const BasicBitSet<Block>& b) {
-    BasicBitSet<Block> res(a);
+FCA::BasicBitSet<Block> operator -(const FCA::BasicBitSet<Block>& a, const FCA::BasicBitSet<Block>& b) {
+    FCA::BasicBitSet<Block> res(a);
     return res -= b;
 }
 
 template <typename Block>
-void ToString(const BasicBitSet<Block>& a, std::string& s, const std::string zero, const std::string one) {
+void ToString(const FCA::BasicBitSet<Block>& a, std::string& s, const std::string zero, const std::string one) {
     const size_t count = a.count();
     s.resize(one.size() * count + zero.size() * (a.size() - count));
     size_t pos = 0;
@@ -476,7 +477,7 @@ void ToString(const BasicBitSet<Block>& a, std::string& s, const std::string zer
 }
 
 template <typename Block>
-void ToIndList(const BasicBitSet<Block>& a, std::string& s, const std::string& delimiter) {
+void ToIndList(const FCA::BasicBitSet<Block>& a, std::string& s, const std::string& delimiter) {
     std::stringstream ss;
     bool empty = true;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -484,7 +485,7 @@ void ToIndList(const BasicBitSet<Block>& a, std::string& s, const std::string& d
             if (!empty) {
                 ss << delimiter;
             }
-            ss << ind;
+            ss << i;
             empty = false;
         }
     }

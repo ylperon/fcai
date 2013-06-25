@@ -9,11 +9,11 @@ TEST_RESULT TestBitSet() {
     TEST_RESULT res;
     fprintf(stdout, "\t\tTestBitSetConstruct:\n");
     res = TestBitSetConctruct();
-    IncOkFailUnknown(res, ok, fail);
+    IncOkFail(res, ok, fail);
     PrintOkFail(res, stdout);
     fprintf(stdout, "\t\tTestBitSetSetAndTest:\n");
     res = TestBitSetSetAndTest();
-    IncOkFailUnknown(res, ok, fail);
+    IncOkFail(res, ok, fail);
     PrintOkFail(res, stdout);
 
     if (0 == fail) {
@@ -24,6 +24,6 @@ TEST_RESULT TestBitSet() {
 
 int main() {
     fprintf(stdout, "\t\tRunning all tests:\n");
-    TestBitSet()
+    TestBitSet();
     return 0;
 }
