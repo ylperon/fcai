@@ -25,6 +25,7 @@ void PrintOkFail(const TEST_RESULT res, FILE* out) {
 }
 
 void PrintOkFailAndLineFeed(const TEST_RESULT res, FILE* out) {
+    fprintf(out, " ");
     PrintOkFail(res, out);
     fprintf(out, "\n");
 }

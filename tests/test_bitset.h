@@ -9,4 +9,5 @@
 std::vector<TestFunction> GetAllBitSetTestFunctions();
 
 TEST_RESULT TestBitSetConctruct();
+TEST_RESULT TestBitSetCopyConstruct();
 TEST_RESULT TestBitSetSetAndTest();
