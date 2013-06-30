@@ -30,7 +30,7 @@ void PrintOkFailAndLineFeed(const TEST_RESULT res, FILE* out) {
     fprintf(out, "\n");
 }
 
-void RunTestsFromGroup(const std::vector<TestFunction>& testFunctions,
+void RunTestsFromGroup(const TestFunctionVector& testFunctions,
                        const std::string& indent,
                        size_t& ok,
                        size_t& fail) {

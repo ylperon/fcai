@@ -17,11 +17,22 @@ struct TestFunction {
     TEST_RESULT (*fun)();
 };
 
+typedef std::vector<TestFunction> TestFunctionVector;
+
+struct TestFunctionGroup {
+    TestFunctionGroup(const std::string& name = "", TEST_RESULT(* const fun)(const std::string&, size_t&, size_t&) = 0) : name(name), fun(fun) {
+    }
+    std::string name;
+    TEST_RESULT (*fun)(const std::string&, size_t&, size_t&);
+};
+
+typedef std::vector<TestFunctionGroup> TestFunctionGroupVector;
+
 void IncOkFail(const TEST_RESULT res, size_t& ok, size_t& fail);
 void PrintOkFail(const TEST_RESULT res, FILE* out);
 void PrintOkFailAndLineFeed(const TEST_RESULT res, FILE* out);
 
-void RunTestsFromGroup(const std::vector<TestFunction>& testFunctions,
+void RunTestsFromGroup(const TestFunctionVector& testFunctions,
                        const std::string& indent,
                        size_t& ok,
                        size_t& fail);

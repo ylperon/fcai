@@ -1,22 +1,46 @@
 #include <cstdio>
 
+#include <string>
+
 #include "test_bitset.h"
 
-TEST_RESULT TestBitSet() {
-    fprintf(stdout, "\tTestBitSet:\n");
-    size_t ok = 0;
-    size_t fail = 0;
-    std::vector<TestFunction> allTests = GetAllBitSetTestFunctions();
-    RunTestsFromGroup(allTests, "\t\t", ok, fail);
-
-    fprintf(stdout, "\tTestBitSet: ");
-    TEST_RESULT res = (0 == fail ? TEST_RESULT_OK : TEST_RESULT_FAIL);
-    PrintOkFailAndLineFeed(res, stdout);
+TestFunctionGroupVector InitAllTests() {
+    TestFunctionGroupVector res;
+    res.push_back(TestBitSetAll);
     return res;
 }
 
 int main() {
     fprintf(stdout, "Running all tests:\n");
-    TestBitSet();
+    size_t okGlobal = 0;
+    size_t failGlobal = 0;
+    size_t okSub = 0;
+    size_t failSub = 0;
+    TestFunctionGroupVector allTests = InitAllTests();
+    for (size_t i = 0; i < allTests.size(); ++i) {
+        const std::string indent = "\t";
+        size_t ok = 0;
+        size_t fail = 0;
+        TEST_RESULT res = allTests[i].fun(indent, ok, fail);
+        if (TEST_RESULT_OK == res) {
+            ++okGlobal;
+        } else {
+            ++failGlobal;
+        }
+        okSub += ok;
+        failSub += fail;
+    }
+    fprintf(stdout, "Total subtest OK: %lu\n", okSub);
+    fprintf(stdout, "Total subtest FAIL: %lu\n", failSub);
+    const double pSub = (0 == okSub + failSub ? 100 : static_cast<double>(okSub * 100) / static_cast<double>(okSub + failSub));
+    fprintf(stdout, "Successfull subtest: %.2lf %%\n", pSub);
+    fprintf(stdout, "Total test OK: %lu\n", okGlobal);
+    fprintf(stdout, "Total test FAIL: %lu\n", failGlobal);
+    const double pGlobal = (0 == okGlobal + failGlobal ? 100 : static_cast<double>(okGlobal * 100) / static_cast<double>(okGlobal + failGlobal));
+    fprintf(stdout, "Successfull tests: %.2lf %%\n", pGlobal);
+    fprintf(stdout, "Running all tests:");
+    TEST_RESULT res = (0 == failGlobal ? TEST_RESULT_OK : TEST_RESULT_FAIL);
+    PrintOkFailAndLineFeed(res, stdout);
+
     return 0;
 }
