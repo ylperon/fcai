@@ -1,6 +1,15 @@
 #include "test_bitset.h"
 
+#include <cstdio>
+
 #include <vector>
+
+std::vector<TestFunction> GetAllBitSetTestFunctions() {
+    std::vector<TestFunction> res;
+    res.push_back(TestFunction("TestBitSetConctruct", &TestBitSetConctruct));
+    res.push_back(TestFunction("TestBitSetSetAndTest", &TestBitSetSetAndTest));
+    return res;
+}
 
 TEST_RESULT TestBitSetConctruct() {
     const size_t len = 100;

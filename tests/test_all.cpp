@@ -6,21 +6,11 @@ TEST_RESULT TestBitSet() {
     fprintf(stdout, "\tTestBitSet:\n");
     size_t ok = 0;
     size_t fail = 0;
-    TEST_RESULT res;
-    fprintf(stdout, "\t\tTestBitSetConstruct: ");
-    res = TestBitSetConctruct();
-    IncOkFail(res, ok, fail);
-    PrintOkFailAndLineFeed(res, stdout);
-    fprintf(stdout, "\t\tTestBitSetSetAndTest: ");
-    res = TestBitSetSetAndTest();
-    IncOkFail(res, ok, fail);
-    PrintOkFailAndLineFeed(res, stdout);
+    std::vector<TestFunction> allTests = GetAllBitSetTestFunctions();
+    RunTestsFromGroup(allTests, "\t\t", ok, fail);
 
-    if (0 == fail) {
-        res = TEST_RESULT_FAIL;
-    }
-    res = TEST_RESULT_OK;
     fprintf(stdout, "\tTestBitSet: ");
+    TEST_RESULT res = (0 == fail ? TEST_RESULT_OK : TEST_RESULT_FAIL);
     PrintOkFailAndLineFeed(res, stdout);
     return res;
 }
