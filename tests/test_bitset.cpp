@@ -4,7 +4,7 @@
 
 TEST_RESULT TestBitSetConctruct() {
     const size_t len = 100;
-    BitSet bs(len);
+    FCA::BitSet bs(len);
     if (bs.size() != len) {
         return TEST_RESULT_FAIL;
     }
@@ -18,7 +18,7 @@ TEST_RESULT TestBitSetConctruct() {
 
 TEST_RESULT TestBitSetSetAndTest() {
     const size_t len = 100;
-    BitSet bs(len);
+    FCA::BitSet bs(len);
     for (size_t i = 0; i < len; ++i) {
         if (i % 3 == 0) {
             bs.set(i);
@@ -32,5 +32,5 @@ TEST_RESULT TestBitSetSetAndTest() {
             return TEST_RESULT_FAIL;
         }
     }
-    return TEST_REULST_OK;
+    return TEST_RESULT_OK;
 }

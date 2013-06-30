@@ -7,23 +7,26 @@ TEST_RESULT TestBitSet() {
     size_t ok = 0;
     size_t fail = 0;
     TEST_RESULT res;
-    fprintf(stdout, "\t\tTestBitSetConstruct:\n");
+    fprintf(stdout, "\t\tTestBitSetConstruct: ");
     res = TestBitSetConctruct();
     IncOkFail(res, ok, fail);
-    PrintOkFail(res, stdout);
-    fprintf(stdout, "\t\tTestBitSetSetAndTest:\n");
+    PrintOkFailAndLineFeed(res, stdout);
+    fprintf(stdout, "\t\tTestBitSetSetAndTest: ");
     res = TestBitSetSetAndTest();
     IncOkFail(res, ok, fail);
-    PrintOkFail(res, stdout);
+    PrintOkFailAndLineFeed(res, stdout);
 
     if (0 == fail) {
-        return TEST_RESULT_FAIL;
+        res = TEST_RESULT_FAIL;
     }
-    return TEST_RESULT_OK;
+    res = TEST_RESULT_OK;
+    fprintf(stdout, "\tTestBitSet: ");
+    PrintOkFailAndLineFeed(res, stdout);
+    return res;
 }
 
 int main() {
-    fprintf(stdout, "\t\tRunning all tests:\n");
+    fprintf(stdout, "Running all tests:\n");
     TestBitSet();
     return 0;
 }
