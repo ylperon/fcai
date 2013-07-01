@@ -16,3 +16,4 @@ TEST_RESULT TestBitSetConctruct();
 TEST_RESULT TestBitSetCopyConstruct();
 TEST_RESULT TestBitSetSetAndTest();
 TEST_RESULT TestBitSetAnyAndNone();
+TEST_RESULT TestBitSetSetAllAndTestAll();

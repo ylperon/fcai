@@ -12,6 +12,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetSetAndTest", &TestBitSetSetAndTest));
     res.push_back(TestFunction("TestBitSetCopyConstruct", &TestBitSetCopyConstruct));
     res.push_back(TestFunction("TestBitSetAnyAndNone", &TestBitSetAnyAndNone));
+    res.push_back(TestFunction("TestBitSetSetAllAndTestAll", &TestBitSetSetAllAndTestAll));
     return res;
 }
 
@@ -101,6 +102,24 @@ TEST_RESULT TestBitSetAnyAndNone() {
     }
     if (bs.any() || !bs.none()) {
         return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetSetAllAndTestAll() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    bs.set();
+    for (size_t i = 0; i < len; ++i) {
+        if (!bs.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    bs.reset();
+    for (size_t i = 0; i < len; ++i) {
+        if (bs.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
     }
     return TEST_RESULT_OK;
 }
