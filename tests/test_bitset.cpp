@@ -11,6 +11,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetConctruct", &TestBitSetConctruct));
     res.push_back(TestFunction("TestBitSetSetAndTest", &TestBitSetSetAndTest));
     res.push_back(TestFunction("TestBitSetCopyConstruct", &TestBitSetCopyConstruct));
+    res.push_back(TestFunction("TestBitSetAnyAndNone", &TestBitSetAnyAndNone));
     return res;
 }
 
@@ -18,7 +19,7 @@ TEST_RESULT TestBitSet(const std::string& indent, size_t& ok, size_t& fail) {
     fprintf(stdout, "%sTestBitSet:\n", indent.c_str());
     ok = 0;
     fail = 0;
-    std::vector<TestFunction> allTests = GetAllBitSetTestFunctions();
+    TestFunctionVector allTests = GetAllBitSetTestFunctions();
     RunTestsFromGroup(allTests, indent + "\t", ok, fail);
 
     fprintf(stdout, "%sTotal subtest OK: %lu\n", indent.c_str(), ok);
@@ -80,6 +81,26 @@ TEST_RESULT TestBitSetCopyConstruct() {
         if (i % 3 != 0 && bsCopy.test(i)) {
             return TEST_RESULT_FAIL;
         }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetAnyAndNone() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs.set(i);
+        }
+    }
+    if (!bs.any() || bs.none()) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < len; ++i) {
+        bs.reset(i);
+    }
+    if (bs.any() || !bs.none()) {
+        return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
 }

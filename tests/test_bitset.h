@@ -8,10 +8,11 @@
 
 extern TestFunctionGroup TestBitSetAll;
 
-std::vector<TestFunction> GetAllBitSetTestFunctions();
+TestFunctionVector GetAllBitSetTestFunctions();
 
 TEST_RESULT TestBitSet(const std::string& indent, size_t& ok, size_t& fail);
 
 TEST_RESULT TestBitSetConctruct();
 TEST_RESULT TestBitSetCopyConstruct();
 TEST_RESULT TestBitSetSetAndTest();
+TEST_RESULT TestBitSetAnyAndNone();
