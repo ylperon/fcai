@@ -196,7 +196,7 @@ template <typename Block>
 void FCA::BasicBitSet<Block>::set() {
     memset(bits, 255, bitsSize * BlockSize);
     if (!full) {
-        bits[bitsSize - 1] |= ::GetOnes<Block>(length - (bitsSize - 1) * BitsPerBlock);
+        bits[bitsSize - 1] &= ::GetOnes<Block>(length - (bitsSize - 1) * BitsPerBlock);
     }
 }
 
@@ -223,7 +223,7 @@ void FCA::BasicBitSet<Block>::flip() {
         bits[i] = ~bits[i];
     }
     if (!full) {
-        bits[bitsSize - 1] |= ::GetOnes<Block>(length - (bitsSize - 1) * BitsPerBlock);
+        bits[bitsSize - 1] &= ::GetOnes<Block>(length - (bitsSize - 1) * BitsPerBlock);
     }
 }
 
