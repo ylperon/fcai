@@ -21,3 +21,4 @@ TEST_RESULT TestBitSetFlipAll();
 TEST_RESULT TestBitSetFlip();
 TEST_RESULT TestBitSetIsSubsetOf();
 TEST_RESULT TestBitSetIsProperSubsetOf();
+TEST_RESULT TestBitSetSize();

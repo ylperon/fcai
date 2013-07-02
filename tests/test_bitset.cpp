@@ -17,6 +17,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetFlip", &TestBitSetFlip));
     res.push_back(TestFunction("TestBitSetIsSubsetOf", &TestBitSetIsSubsetOf));
     res.push_back(TestFunction("TestBitSetIsProperSubsetOf", &TestBitSetIsProperSubsetOf));
+    res.push_back(TestFunction("TestBitSetSize", &TestBitSetSize));
     return res;
 }
 
@@ -248,4 +249,10 @@ TEST_RESULT TestBitSetIsProperSubsetOf() {
         return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetSize() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    return (bs.size() == len ? TEST_RESULT_OK : TEST_RESULT_FAIL);
 }
