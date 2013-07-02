@@ -13,6 +13,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetCopyConstruct", &TestBitSetCopyConstruct));
     res.push_back(TestFunction("TestBitSetAnyAndNone", &TestBitSetAnyAndNone));
     res.push_back(TestFunction("TestBitSetSetAllAndTestAll", &TestBitSetSetAllAndTestAll));
+    res.push_back(TestFunction("TestBitSetFlipAll", &TestBitSetFlipAll));
     res.push_back(TestFunction("TestBitSetFlip", &TestBitSetFlip));
     return res;
 }
@@ -125,7 +126,7 @@ TEST_RESULT TestBitSetSetAllAndTestAll() {
     return TEST_RESULT_OK;
 }
 
-TEST_RESULT TestBitSetFlip() {
+TEST_RESULT TestBitSetFlipAll() {
     const size_t len = 100;
     FCA::BitSet bs(len);
     for (size_t i = 0; i < len; ++i) {
@@ -134,6 +135,27 @@ TEST_RESULT TestBitSetFlip() {
         }
     }
     bs.flip();
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0 && bs.test(i)) {
+            return TEST_RESULT_FAIL;
+        } else if (i % 3 != 0 && !bs.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetFlip() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs.set(i);
+        }
+    }
+    for (size_t i = 0; i < len; ++i) {
+        bs.flip(i);
+    }
     for (size_t i = 0; i < len; ++i) {
         if (i % 3 == 0 && bs.test(i)) {
             return TEST_RESULT_FAIL;

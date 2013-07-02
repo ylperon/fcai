@@ -17,4 +17,5 @@ TEST_RESULT TestBitSetCopyConstruct();
 TEST_RESULT TestBitSetSetAndTest();
 TEST_RESULT TestBitSetAnyAndNone();
 TEST_RESULT TestBitSetSetAllAndTestAll();
+TEST_RESULT TestBitSetFlipAll();
 TEST_RESULT TestBitSetFlip();
