@@ -20,6 +20,8 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetSize", &TestBitSetSize));
     res.push_back(TestFunction("TestBitSetResize", &TestBitSetResize));
     res.push_back(TestFunction("TestBitSetOperatorTilda", &TestBitSetOperatorTilda));
+    res.push_back(TestFunction("TestBitSetCount", &TestBitSetCount));
+    res.push_back(TestFunction("TestBitSetCountZeros", &TestBitSetCount));
     return res;
 }
 
@@ -319,4 +321,30 @@ TEST_RESULT TestBitSetOperatorTilda() {
         }
     }
     return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetCount() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    size_t ones = 0;
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs.set(i);
+            ++ones;
+        }
+    }
+    return (bs.count() == ones ? TEST_RESULT_OK : TEST_RESULT_FAIL);
+}
+
+TEST_RESULT TestBitSetCountZeros() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    size_t zeros = len;
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs.set(i);
+            --zeros;
+        }
+    }
+    return (bs.count_zeros() == zeros ? TEST_RESULT_OK : TEST_RESULT_FAIL);
 }

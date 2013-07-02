@@ -289,6 +289,7 @@ size_t FCA::BasicBitSet<Block>::count() const {
             res += value & Block(1);
         }
     }
+    return res;
 }
 
 template <typename Block>
