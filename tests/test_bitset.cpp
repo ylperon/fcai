@@ -19,6 +19,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetIsProperSubsetOf", &TestBitSetIsProperSubsetOf));
     res.push_back(TestFunction("TestBitSetSize", &TestBitSetSize));
     res.push_back(TestFunction("TestBitSetResize", &TestBitSetResize));
+    res.push_back(TestFunction("TestBitSetOperatorTilda", &TestBitSetOperatorTilda));
     return res;
 }
 
@@ -290,6 +291,30 @@ TEST_RESULT TestBitSetResize() {
     }
     for (size_t i = len1; i < len3; ++i) {
         if (bs3.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetOperatorTilda() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    bs2 = ~bs1;
+    if (bs1.size() != bs2.size()) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0 && bs2.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && !bs2.test(i)) {
             return TEST_RESULT_FAIL;
         }
     }

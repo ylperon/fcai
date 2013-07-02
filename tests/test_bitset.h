@@ -23,3 +23,4 @@ TEST_RESULT TestBitSetIsSubsetOf();
 TEST_RESULT TestBitSetIsProperSubsetOf();
 TEST_RESULT TestBitSetSize();
 TEST_RESULT TestBitSetResize();
+TEST_RESULT TestBitSetOperatorTilda();

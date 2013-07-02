@@ -396,7 +396,8 @@ FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator =(const FCA::BasicBit
     length = a.length;
     full = a.full;
     bits = new Block[bitsSize]();
-    memcpy(bits, a.bits, bitsSize);
+    memcpy(bits, a.bits, bitsSize * BlockSize);
+    return *this;
 }
 
 template <typename Block>
