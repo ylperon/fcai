@@ -15,6 +15,8 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetSetAllAndTestAll", &TestBitSetSetAllAndTestAll));
     res.push_back(TestFunction("TestBitSetFlipAll", &TestBitSetFlipAll));
     res.push_back(TestFunction("TestBitSetFlip", &TestBitSetFlip));
+    res.push_back(TestFunction("TestBitSetIsSubsetOf", &TestBitSetIsSubsetOf));
+    res.push_back(TestFunction("TestBitSetIsProperSubsetOf", &TestBitSetIsProperSubsetOf));
     return res;
 }
 
@@ -162,6 +164,88 @@ TEST_RESULT TestBitSetFlip() {
         } else if (i % 3 != 0 && !bs.test(i)) {
             return TEST_RESULT_FAIL;
         }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetIsSubsetOf() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 6 == 0) {
+            bs2.set(i);
+        }
+    }
+    FCA::BitSet bs3(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs3.set(i);
+        }
+    }
+    FCA::BitSet bs4(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 5 == 0) {
+            bs4.set(i);
+        }
+    }
+    if (!bs1.is_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
+    }
+    if (!bs2.is_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
+    }
+    if (!bs3.is_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
+    }
+    if (bs4.is_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetIsProperSubsetOf() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 6 == 0) {
+            bs2.set(i);
+        }
+    }
+    FCA::BitSet bs3(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs3.set(i);
+        }
+    }
+    FCA::BitSet bs4(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 5 == 0) {
+            bs4.set(i);
+        }
+    }
+    if (bs1.is_proper_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
+    }
+    if (!bs2.is_proper_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
+    }
+    if (bs3.is_proper_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
+    }
+    if (bs4.is_proper_subset_of(bs1)) {
+        return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
 }

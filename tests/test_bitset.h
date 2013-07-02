@@ -19,3 +19,5 @@ TEST_RESULT TestBitSetAnyAndNone();
 TEST_RESULT TestBitSetSetAllAndTestAll();
 TEST_RESULT TestBitSetFlipAll();
 TEST_RESULT TestBitSetFlip();
+TEST_RESULT TestBitSetIsSubsetOf();
+TEST_RESULT TestBitSetIsProperSubsetOf();
