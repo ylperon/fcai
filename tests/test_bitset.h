@@ -34,3 +34,5 @@ TEST_RESULT TestBitSetFindFirst();
 TEST_RESULT TestBitSetFindNext();
 TEST_RESULT TestBitSetSwap();
 TEST_RESULT TestBitSetAssignmentOperator();
+TEST_RESULT TestBitSetOperatorEqual();
+TEST_RESULT TestBitSetOperatorNotEqual();

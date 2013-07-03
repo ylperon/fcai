@@ -405,7 +405,7 @@ template <typename Block>
 bool FCA::BasicBitSet<Block>::operator ==(const FCA::BasicBitSet<Block>& a) const {
     assert(a.length == length);
     for (size_t i = 0; i < bitsSize; ++i) {
-        if (bits[i] != a.bitsSize[i]) {
+        if (bits[i] != a.bits[i]) {
             return false;
         }
     }

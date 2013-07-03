@@ -30,6 +30,8 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetFindNext", &TestBitSetFindNext));
     res.push_back(TestFunction("TestBitSetSwap", &TestBitSetSwap));
     res.push_back(TestFunction("TestBitSetAssignmentOperator", &TestBitSetAssignmentOperator));
+    res.push_back(TestFunction("TestBitSetOperatorEqual", &TestBitSetOperatorEqual));
+    res.push_back(TestFunction("TestBitSetOperatorNotEqual", &TestBitSetOperatorNotEqual));
     return res;
 }
 
@@ -564,6 +566,64 @@ TEST_RESULT TestBitSetAssignmentOperator() {
         if (i % 3 != 0 && bs1.test(i)) {
             return TEST_RESULT_FAIL;
         }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetOperatorEqual() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs2.set(i);
+        }
+    }
+    FCA::BitSet bs3(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 5 == 0) {
+            bs3.set(i);
+        }
+    }
+    if (!(bs1 == bs2)) {
+        return TEST_RESULT_FAIL;
+    }
+    if (bs1 == bs3) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetOperatorNotEqual() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs2.set(i);
+        }
+    }
+    FCA::BitSet bs3(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 5 == 0) {
+            bs3.set(i);
+        }
+    }
+    if (bs1 != bs2) {
+        return TEST_RESULT_FAIL;
+    }
+    if (!(bs1 != bs3)) {
+        return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
 }
