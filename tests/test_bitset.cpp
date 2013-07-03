@@ -28,6 +28,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetOperatorMinus", &TestBitSetOperatorMinus));
     res.push_back(TestFunction("TestBitSetFindFirst", &TestBitSetFindFirst));
     res.push_back(TestFunction("TestBitSetFindNext", &TestBitSetFindNext));
+    res.push_back(TestFunction("TestBitSetSwap", &TestBitSetSwap));
     return res;
 }
 
@@ -496,6 +497,47 @@ TEST_RESULT TestBitSetFindNext() {
     const size_t indFirst = bs.findFirst();
     if (bs.findNext(indFirst) != ind2) {
         return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetSwap() {
+    const size_t len1 = 100;
+    FCA::BitSet bs1(len1);
+    for (size_t i = 0; i < len1; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    const size_t len2 = 300;
+    FCA::BitSet bs2(len2);
+    for (size_t i = 0; i < len2; ++i) {
+        if (i % 5 == 0) {
+            bs2.set(i);
+        }
+    }
+    bs1.swap(bs2);
+    if (bs1.size() != len2) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < len2; ++i) {
+        if (i % 5 == 0 && !bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 5 != 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    if (bs2.size() != len1) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < len1; ++i) {
+        if (i % 3 == 0 && !bs2.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && bs2.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
     }
     return TEST_RESULT_OK;
 }
