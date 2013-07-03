@@ -33,3 +33,4 @@ TEST_RESULT TestBitSetOperatorMinus();
 TEST_RESULT TestBitSetFindFirst();
 TEST_RESULT TestBitSetFindNext();
 TEST_RESULT TestBitSetSwap();
+TEST_RESULT TestBitSetAssignmentOperator();

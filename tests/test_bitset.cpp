@@ -29,6 +29,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetFindFirst", &TestBitSetFindFirst));
     res.push_back(TestFunction("TestBitSetFindNext", &TestBitSetFindNext));
     res.push_back(TestFunction("TestBitSetSwap", &TestBitSetSwap));
+    res.push_back(TestFunction("TestBitSetAssignmentOperator", &TestBitSetAssignmentOperator));
     return res;
 }
 
@@ -536,6 +537,31 @@ TEST_RESULT TestBitSetSwap() {
             return TEST_RESULT_FAIL;
         }
         if (i % 3 != 0 && bs2.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetAssignmentOperator() {
+    const size_t len1 = 100;
+    FCA::BitSet bs1(len1);
+    for (size_t i = 0; i < len1; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    const size_t len2 = 10;
+    FCA::BitSet bs2(len2);
+    bs2 = bs1;
+    if (bs2.size() != len1) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < len1; ++i) {
+        if (i % 3 == 0 && !bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && bs1.test(i)) {
             return TEST_RESULT_FAIL;
         }
     }
