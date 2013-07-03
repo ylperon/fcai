@@ -22,6 +22,10 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetOperatorTilda", &TestBitSetOperatorTilda));
     res.push_back(TestFunction("TestBitSetCount", &TestBitSetCount));
     res.push_back(TestFunction("TestBitSetCountZeros", &TestBitSetCount));
+    res.push_back(TestFunction("TestBitSetOperatorAnd", &TestBitSetOperatorAnd));
+    res.push_back(TestFunction("TestBitSetOperatorOr", &TestBitSetOperatorOr));
+    res.push_back(TestFunction("TestBitSetOperatorXor", &TestBitSetOperatorXor));
+    res.push_back(TestFunction("TestBitSetOperatorMinus", &TestBitSetOperatorMinus));
     return res;
 }
 
@@ -347,4 +351,120 @@ TEST_RESULT TestBitSetCountZeros() {
         }
     }
     return (bs.count_zeros() == zeros ? TEST_RESULT_OK : TEST_RESULT_FAIL);
+}
+
+TEST_RESULT TestBitSetOperatorAnd() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 6 == 0) {
+            bs2.set(i);
+        }
+    }
+    bs1 &= bs2;
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 6 == 0 && !bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 6 != 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetOperatorOr() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 6 == 0) {
+            bs2.set(i);
+        }
+    }
+    bs1 |= bs2;
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0 && !bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetOperatorXor() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 6 == 0) {
+            bs2.set(i);
+        }
+    }
+    bs1 ^= bs2;
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0 && i % 6 == 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 == 0 && i % 6 != 0 && !bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && i % 6 == 0 && !bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && i % 6 != 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetOperatorMinus() {
+    const size_t len = 100;
+    FCA::BitSet bs1(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+        }
+    }
+    FCA::BitSet bs2(len);
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 6 == 0) {
+            bs2.set(i);
+        }
+    }
+    bs1 -= bs2;
+    for (size_t i = 0; i < len; ++i) {
+        if (i % 3 == 0 && i % 6 == 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 == 0 && i % 6 != 0 && !bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && i % 6 == 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+        if (i % 3 != 0 && i % 6 != 0 && bs1.test(i)) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
 }

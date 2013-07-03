@@ -317,7 +317,7 @@ FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator |=(const FCA::BasicBi
 
 template <typename Block>
 FCA::BasicBitSet<Block>& FCA::BasicBitSet<Block>::operator ^=(const FCA::BasicBitSet<Block>& a) {
-    assert(a.lenght == length);
+    assert(a.length == length);
     for (size_t i = 0; i < bitsSize; ++i) {
         bits[i] ^= a.bits[i];
     }

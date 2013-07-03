@@ -26,3 +26,7 @@ TEST_RESULT TestBitSetResize();
 TEST_RESULT TestBitSetOperatorTilda();
 TEST_RESULT TestBitSetCount();
 TEST_RESULT TestBitSetCountZeros();
+TEST_RESULT TestBitSetOperatorAnd();
+TEST_RESULT TestBitSetOperatorOr();
+TEST_RESULT TestBitSetOperatorXor();
+TEST_RESULT TestBitSetOperatorMinus();
