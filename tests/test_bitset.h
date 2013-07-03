@@ -36,3 +36,7 @@ TEST_RESULT TestBitSetSwap();
 TEST_RESULT TestBitSetAssignmentOperator();
 TEST_RESULT TestBitSetOperatorEqual();
 TEST_RESULT TestBitSetOperatorNotEqual();
+TEST_RESULT TestBitSetOperatorLess();
+TEST_RESULT TestBitSetOperatorLessEqual();
+TEST_RESULT TestBitSetOperatorGreater();
+TEST_RESULT TestBitSetOperatorGreaterEqual();
