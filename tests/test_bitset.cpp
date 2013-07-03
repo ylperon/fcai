@@ -26,6 +26,8 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetOperatorOr", &TestBitSetOperatorOr));
     res.push_back(TestFunction("TestBitSetOperatorXor", &TestBitSetOperatorXor));
     res.push_back(TestFunction("TestBitSetOperatorMinus", &TestBitSetOperatorMinus));
+    res.push_back(TestFunction("TestBitSetFindFirst", &TestBitSetFindFirst));
+    res.push_back(TestFunction("TestBitSetFindNext", &TestBitSetFindNext));
     return res;
 }
 
@@ -465,6 +467,35 @@ TEST_RESULT TestBitSetOperatorMinus() {
         if (i % 3 != 0 && i % 6 != 0 && bs1.test(i)) {
             return TEST_RESULT_FAIL;
         }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetFindFirst() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    const size_t ind1 = 50;
+    const size_t ind2 = 88;
+    bs.set(ind1);
+    bs.set(ind2);
+    if (bs.findFirst() != ind1) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetFindNext() {
+    const size_t len = 100;
+    FCA::BitSet bs(len);
+    const size_t ind1 = 33;
+    const size_t ind2 = 66;
+    const size_t ind3 = 80;
+    bs.set(ind1);
+    bs.set(ind2);
+    bs.set(ind3);
+    const size_t indFirst = bs.findFirst();
+    if (bs.findNext(indFirst) != ind2) {
+        return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
 }
