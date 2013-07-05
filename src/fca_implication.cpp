@@ -2,59 +2,47 @@
 
 FCA::Implication::Implication() {}
 
-FCA::Implication::Implication(const Implication& impl) 
-    : mPremise(impl.mPremise),
-      mConclusion(impl.mConclusion) {}
+FCA::Implication::Implication(const Implication& impl)
+    : premise(impl.premise),
+      conclusion(impl.conclusion) {}
 
-FCA::Implication::Implication(const size_t& sizeBasePremise, 
-                              const size_t& sizeBaseConclusion)
-    : mPremise(sizeBasePremise),
-      mConclusion(sizeBaseConclusion) {}
+FCA::Implication::Implication(const size_t& baseSize)
+    : premise(sizeBase),
+      conclusion(sizeBase) {}
 
-FCA::Implication::Implication(const size_t& sizeBase)
-    : mPremise(sizeBase),
-      mConclusion(sizeBase) {}
-
-FCA::Implication::Implication(const FCA::BitSet& premise, 
+FCA::Implication::Implication(const FCA::BitSet& premise,
                               const FCA::BitSet& conclusion)
-    : mPremise(premise),
-      mConclusion(conclusion) {}
+    : premise(premise),
+      conclusion(conclusion) {}
 
 FCA::Implication::Implication(const FCA::BitSet& bs)
-    : mPremise(bs),
-      mConclusion(bs) {}
+    : premise(bs),
+      conclusion(bs) {}
 
-const FCA::BitSet& FCA::Implication::Premise() const
-{
-    return mPremise;
+const FCA::BitSet& FCA::Implication::Premise() const {
+    return premise;
 }
 
-FCA::BitSet& FCA::Implication::Premise()
-{
-    return mPremise;
+FCA::BitSet& FCA::Implication::Premise() {
+    return premise;
 }
 
-size_t FCA::Implication::SizePremise() const
-{
-    return mPremise.count();
+size_t FCA::Implication::PremiseSize() const {
+    return premise.count();
 }
 
-const FCA::BitSet& FCA::Implication::Conclusion() const
-{
-    return mConclusion;
+const FCA::BitSet& FCA::Implication::Conclusion() const {
+    return conclusion;
 }
 
-FCA::BitSet& FCA::Implication::Conclusion()
-{
-    return mConclusion;
+FCA::BitSet& FCA::Implication::Conclusion() {
+    return conclusion;
 }
 
-size_t FCA::Implication::SizeConclusion() const
-{
-    return mConclusion.count();
+size_t FCA::Implication::SizeConclusion() const {
+    return conclusion.count();
 }
 
-void FCA::Implication::Complete()
-{
-    mConclusion |= mPremise;
+void FCA::Implication::Complete() {
+    conclusion |= premise;
 }

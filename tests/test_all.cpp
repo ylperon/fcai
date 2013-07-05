@@ -3,10 +3,12 @@
 #include <string>
 
 #include "test_bitset.h"
+#include "test_implication.h"
 
 TestFunctionGroupVector InitAllTests() {
     TestFunctionGroupVector res;
     res.push_back(TestBitSetAll);
+    res.push_back(TestImplicationAll);
     return res;
 }
 
