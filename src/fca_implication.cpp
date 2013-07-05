@@ -1,5 +1,7 @@
 # include "fca_implication.h"
 
+#include <cassert>
+
 FCA::Implication::Implication() {}
 
 FCA::Implication::Implication(const Implication& impl)
@@ -44,5 +46,6 @@ size_t FCA::Implication::SizeConclusion() const {
 }
 
 void FCA::Implication::Complete() {
+    assert(premise.size() == conclustion.size());
     conclusion |= premise;
 }
