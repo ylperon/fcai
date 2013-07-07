@@ -20,3 +20,4 @@ TEST_RESULT TestImplicationPremiseGetter();
 TEST_RESULT TestImplicationConclusionGetter();
 TEST_RESULT TestImplicationPremiseSize();
 TEST_RESULT TestImplicationConclusionSize();
+TEST_RESULT TestImplicationComplete();
