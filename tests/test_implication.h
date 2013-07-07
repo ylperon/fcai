@@ -18,3 +18,5 @@ TEST_RESULT TestImplicationTwoBitSetConstructor();
 TEST_RESULT TestImplicationCopyConstructor();
 TEST_RESULT TestImplicationPremiseGetter();
 TEST_RESULT TestImplicationConclusionGetter();
+TEST_RESULT TestImplicationPremiseSize();
+TEST_RESULT TestImplicationConclusionSize();

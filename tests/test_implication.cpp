@@ -14,6 +14,8 @@ std::vector<TestFunction> GetAllImplicationTestFunctions() {
     res.push_back(TestFunction("TestImplicationCopyConstructor", &TestImplicationCopyConstructor));
     res.push_back(TestFunction("TestImplicationPremiseGetter", &TestImplicationPremiseGetter));
     res.push_back(TestFunction("TestImplicationConclusionGetter", &TestImplicationConclusionGetter));
+    res.push_back(TestFunction("TestImplicationPremiseSize", &TestImplicationPremiseSize));
+    res.push_back(TestFunction("TestImplicationConclusionSize", &TestImplicationConclusionSize));
     return res;
 }
 
@@ -142,6 +144,38 @@ TEST_RESULT TestImplicationConclusionGetter() {
     }
     const FCA::Implication impl2(premise, conclusion);
     if (impl2.Conclusion() != conclusion) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestImplicationPremiseSize() {
+    const size_t baseSize = 100;
+    FCA::Implication impl(baseSize);
+    size_t premiseSize = 0;
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 3 == 0) {
+            impl.Premise().set(i);
+            ++premiseSize;
+        }
+    }
+    if (impl.PremiseSize() != premiseSize) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestImplicationConclusionSize() {
+    const size_t baseSize = 100;
+    FCA::Implication impl(baseSize);
+    size_t conclusionSize = 0;
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 3 == 0) {
+            impl.Conclusion().set(i);
+            ++conclusionSize;
+        }
+    }
+    if (impl.ConclusionSize() != conclusionSize) {
         return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
