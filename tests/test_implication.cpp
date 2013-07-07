@@ -10,6 +10,7 @@ std::vector<TestFunction> GetAllImplicationTestFunctions() {
     std::vector<TestFunction> res;
     res.push_back(TestFunction("TestImplicationDefaultConstructor", &TestImplicationDefaultConstructor));
     res.push_back(TestFunction("TestImplicationSizeConstructor", &TestImplicationSizeConstructor));
+    res.push_back(TestFunction("TestImplicationTwoBitSetConstructor", &TestImplicationTwoBitSetConstructor));
     return res;
 }
 
@@ -48,6 +49,27 @@ TEST_RESULT TestImplicationSizeConstructor() {
         return TEST_RESULT_FAIL;
     }
     if (impl.Premise().any() || impl.Conclusion().any()) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestImplicationTwoBitSetConstructor() {
+    const size_t baseSize = 100;
+    FCA::BitSet premise(baseSize);
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 3 == 0) {
+            premise.set(i);
+        }
+    }
+    FCA::BitSet conclusion(baseSize);
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 5 == 0) {
+            conclusion.set(i);
+        }
+    }
+    FCA::Implication impl(premise, conclusion);
+    if (impl.Premise() != premise || impl.Conclusion() != conclusion) {
         return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;

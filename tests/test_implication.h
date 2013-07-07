@@ -14,3 +14,4 @@ TEST_RESULT TestImplication(const std::string& indent, size_t& ok, size_t& fail)
 
 TEST_RESULT TestImplicationDefaultConstructor();
 TEST_RESULT TestImplicationSizeConstructor();
+TEST_RESULT TestImplicationTwoBitSetConstructor();
