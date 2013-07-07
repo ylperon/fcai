@@ -9,6 +9,7 @@ TestFunctionGroup TestImplicationAll("TestImplication", &TestImplication);
 std::vector<TestFunction> GetAllImplicationTestFunctions() {
     std::vector<TestFunction> res;
     res.push_back(TestFunction("TestImplicationDefaultConstructor", &TestImplicationDefaultConstructor));
+    res.push_back(TestFunction("TestImplicationSizeConstructor", &TestImplicationSizeConstructor));
     return res;
 }
 
@@ -32,6 +33,21 @@ TEST_RESULT TestImplication(const std::string& indent, size_t& ok, size_t& fail)
 TEST_RESULT TestImplicationDefaultConstructor() {
     FCA::Implication impl;
     if (impl.Premise().size() != 0 || impl.Conclusion().size() != 0) {
+        return TEST_RESULT_FAIL;
+    }
+    if (impl.Premise().any() || impl.Conclusion().any()) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestImplicationSizeConstructor() {
+    const size_t baseSize = 100;
+    FCA::Implication impl(baseSize);
+    if (impl.Premise().size() != baseSize || impl.Conclusion().size() != baseSize) {
+        return TEST_RESULT_FAIL;
+    }
+    if (impl.Premise().any() || impl.Conclusion().any()) {
         return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
