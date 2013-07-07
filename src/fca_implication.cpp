@@ -9,8 +9,8 @@ FCA::Implication::Implication(const Implication& impl)
       conclusion(impl.conclusion) {}
 
 FCA::Implication::Implication(const size_t& baseSize)
-    : premise(sizeBase),
-      conclusion(sizeBase) {}
+    : premise(baseSize),
+      conclusion(baseSize) {}
 
 FCA::Implication::Implication(const FCA::BitSet& premise,
                               const FCA::BitSet& conclusion)
@@ -41,11 +41,11 @@ FCA::BitSet& FCA::Implication::Conclusion() {
     return conclusion;
 }
 
-size_t FCA::Implication::SizeConclusion() const {
+size_t FCA::Implication::ConclusionSize() const {
     return conclusion.count();
 }
 
 void FCA::Implication::Complete() {
-    assert(premise.size() == conclustion.size());
+    assert(premise.size() == conclusion.size());
     conclusion |= premise;
 }
