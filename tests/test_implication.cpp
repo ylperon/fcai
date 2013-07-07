@@ -12,6 +12,8 @@ std::vector<TestFunction> GetAllImplicationTestFunctions() {
     res.push_back(TestFunction("TestImplicationSizeConstructor", &TestImplicationSizeConstructor));
     res.push_back(TestFunction("TestImplicationTwoBitSetConstructor", &TestImplicationTwoBitSetConstructor));
     res.push_back(TestFunction("TestImplicationCopyConstructor", &TestImplicationCopyConstructor));
+    res.push_back(TestFunction("TestImplicationPremiseGetter", &TestImplicationPremiseGetter));
+    res.push_back(TestFunction("TestImplicationConclusionGetter", &TestImplicationConclusionGetter));
     return res;
 }
 
@@ -91,6 +93,55 @@ TEST_RESULT TestImplicationCopyConstructor() {
     }
     const FCA::Implication impl2(impl1);
     if (impl2.Premise() != impl1.Premise() || impl2.Conclusion() != impl1.Conclusion()) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestImplicationPremiseGetter() {
+    const size_t baseSize = 100;
+    FCA::BitSet premise(baseSize);
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 3 == 0) {
+            premise.set(i);
+        }
+    }
+    FCA::BitSet conclusion(baseSize);
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 5 == 0) {
+            conclusion.set(i);
+        }
+    }
+    FCA::Implication impl1(premise, conclusion);
+    if (impl1.Premise() != premise) {
+        return TEST_RESULT_FAIL;
+    }
+    const FCA::Implication impl2(premise, conclusion);
+    if (impl2.Premise() != premise) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+TEST_RESULT TestImplicationConclusionGetter() {
+    const size_t baseSize = 100;
+    FCA::BitSet premise(baseSize);
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 3 == 0) {
+            premise.set(i);
+        }
+    }
+    FCA::BitSet conclusion(baseSize);
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 5 == 0) {
+            conclusion.set(i);
+        }
+    }
+    FCA::Implication impl1(premise, conclusion);
+    if (impl1.Conclusion() != conclusion) {
+        return TEST_RESULT_FAIL;
+    }
+    const FCA::Implication impl2(premise, conclusion);
+    if (impl2.Conclusion() != conclusion) {
         return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
