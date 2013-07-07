@@ -11,6 +11,7 @@ std::vector<TestFunction> GetAllImplicationTestFunctions() {
     res.push_back(TestFunction("TestImplicationDefaultConstructor", &TestImplicationDefaultConstructor));
     res.push_back(TestFunction("TestImplicationSizeConstructor", &TestImplicationSizeConstructor));
     res.push_back(TestFunction("TestImplicationTwoBitSetConstructor", &TestImplicationTwoBitSetConstructor));
+    res.push_back(TestFunction("TestImplicationCopyConstructor", &TestImplicationCopyConstructor));
     return res;
 }
 
@@ -68,8 +69,28 @@ TEST_RESULT TestImplicationTwoBitSetConstructor() {
             conclusion.set(i);
         }
     }
-    FCA::Implication impl(premise, conclusion);
+    const FCA::Implication impl(premise, conclusion);
     if (impl.Premise() != premise || impl.Conclusion() != conclusion) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestImplicationCopyConstructor() {
+    const size_t baseSize = 100;
+    FCA::Implication impl1(baseSize);
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 3 == 0) {
+            impl1.Premise().set(i);
+        }
+    }
+    for (size_t i = 0; i < baseSize; ++i) {
+        if (i % 5 == 0) {
+            impl1.Conclusion().set(i);
+        }
+    }
+    const FCA::Implication impl2(impl1);
+    if (impl2.Premise() != impl1.Premise() || impl2.Conclusion() != impl1.Conclusion()) {
         return TEST_RESULT_FAIL;
     }
     return TEST_RESULT_OK;
