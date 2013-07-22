@@ -6,8 +6,8 @@
 
 TestFunctionGroup TestImplicationAll("TestImplication", &TestImplication);
 
-std::vector<TestFunction> GetAllImplicationTestFunctions() {
-    std::vector<TestFunction> res;
+TestFunctionVector GetAllImplicationTestFunctions() {
+    TestFunctionVector res;
     res.push_back(TestFunction("TestImplicationDefaultConstructor", &TestImplicationDefaultConstructor));
     res.push_back(TestFunction("TestImplicationSizeConstructor", &TestImplicationSizeConstructor));
     res.push_back(TestFunction("TestImplicationTwoBitSetConstructor", &TestImplicationTwoBitSetConstructor));
@@ -21,7 +21,7 @@ std::vector<TestFunction> GetAllImplicationTestFunctions() {
 }
 
 TEST_RESULT TestImplication(const std::string& indent, size_t& ok, size_t& fail) {
-    fprintf(stdout, "%sTestImplication:\n", indent.c_str());
+    fprintf(stdout, "%s%s:\n", indent.c_str(), TestImplicationAll.name.c_str());
     ok = 0;
     fail = 0;
     TestFunctionVector allTests = GetAllImplicationTestFunctions();
@@ -31,7 +31,7 @@ TEST_RESULT TestImplication(const std::string& indent, size_t& ok, size_t& fail)
     fprintf(stdout, "%sTotal subtest FAIL: %lu\n", indent.c_str(), fail);
     const double p = (0 == ok + fail ? 100 : static_cast<double>(ok * 100) / static_cast<double>(ok + fail));
     fprintf(stdout, "%sSuccessfull subtests: %.2lf %%\n", indent.c_str(), p);
-    fprintf(stdout, "%sTestImplication:", indent.c_str());
+    fprintf(stdout, "%s%s:", indent.c_str(), TestImplicationAll.name.c_str());
     TEST_RESULT res = (0 == fail ? TEST_RESULT_OK : TEST_RESULT_FAIL);
     PrintOkFailAndLineFeed(res, stdout);
     return res;

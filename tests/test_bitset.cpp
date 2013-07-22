@@ -6,7 +6,7 @@
 
 TestFunctionGroup TestBitSetAll("TestBitSet", &TestBitSet);
 
-std::vector<TestFunction> GetAllBitSetTestFunctions() {
+TestFunctionVector GetAllBitSetTestFunctions() {
     std::vector<TestFunction> res;
     res.push_back(TestFunction("TestBitSetConctruct", &TestBitSetConctruct));
     res.push_back(TestFunction("TestBitSetSetAndTest", &TestBitSetSetAndTest));
@@ -40,7 +40,7 @@ std::vector<TestFunction> GetAllBitSetTestFunctions() {
 }
 
 TEST_RESULT TestBitSet(const std::string& indent, size_t& ok, size_t& fail) {
-    fprintf(stdout, "%sTestBitSet:\n", indent.c_str());
+    fprintf(stdout, "%s%s:\n", indent.c_str(), TestBitSetAll.name.c_str());
     ok = 0;
     fail = 0;
     TestFunctionVector allTests = GetAllBitSetTestFunctions();
@@ -50,7 +50,7 @@ TEST_RESULT TestBitSet(const std::string& indent, size_t& ok, size_t& fail) {
     fprintf(stdout, "%sTotal subtest FAIL: %lu\n", indent.c_str(), fail);
     const double p = (0 == ok + fail ? 100 : static_cast<double>(ok * 100) / static_cast<double>(ok + fail));
     fprintf(stdout, "%sSuccessfull subtests: %.2lf %%\n", indent.c_str(), p);
-    fprintf(stdout, "%sTestBitSet:", indent.c_str());
+    fprintf(stdout, "%s%s:", indent.c_str(), TestBitSetAll.name.c_str());
     TEST_RESULT res = (0 == fail ? TEST_RESULT_OK : TEST_RESULT_FAIL);
     PrintOkFailAndLineFeed(res, stdout);
     return res;

@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "fca_implication_interface.h"
-# include "fca_bitset.h"
+#include "fca_implication_interface.h"
+#include "fca_bitset.h"
 
 namespace FCA
 {

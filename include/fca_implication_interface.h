@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include <cstddef>
+#include <cstddef>
 
-# include "fca_bitset.h"
+#include "fca_bitset.h"
 
 namespace FCA
 {
