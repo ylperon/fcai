@@ -1,27 +1,22 @@
-# pragma once
+#pragma once
 
-# ifndef FCA_CONCEPT_INTERFACE_H_
-# define FCA_CONCEPT_INTERFACE_H_
+#include <cstddef>
 
-# include <cstddef>
+#include "fca_bitset.h"
 
 namespace FCA
 {
-    class BitSet;
-
     class ConceptInterface
     {
     public:
         virtual const BitSet& Extent() const = 0;
         virtual BitSet& Extent() = 0;
-        virtual size_t SizeExtent() const = 0;
+        virtual size_t ExtentSize() const = 0;
 
         virtual const BitSet& Intent() const = 0;
         virtual BitSet& Intent() = 0;
-        virtual size_t SizeIntent() const = 0;
+        virtual size_t IntentSize() const = 0;
 
         virtual ~ConceptInterface() throw() { ;; }
     };
 };
-
-# endif //FCA_CONCEPT_INTERFACE_H_

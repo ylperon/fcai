@@ -1,10 +1,6 @@
-# pragma once
+#pragma once
 
-# ifndef FCA_CONCEPT_H_
-# define FCA_CONCEPT_H_
-
-# include "fca_concept_interface.h"
-# include "fca_bitset.h"
+#include "fca_concept_interface.h"
 
 namespace FCA
 {
@@ -16,20 +12,18 @@ namespace FCA
         Concept(const size_t objSize, const size_t attrSize);
         Concept(const BitSet &extent, const BitSet& intent);
 
-        virtual const BitSet& Extent() const;
-        virtual BitSet& Extent();
-        virtual size_t SizeExtent() const;
+        const BitSet& Extent() const;
+        BitSet& Extent();
+        size_t ExtentSize() const;
 
-        virtual const BitSet& Intent() const;
-        virtual BitSet& Intent();
-        virtual size_t SizeIntent() const;
+        const BitSet& Intent() const;
+        BitSet& Intent();
+        size_t IntentSize() const;
 
         virtual ~Concept() throw() { ;; }
 
     protected:
-        BitSet mExtent;
-        BitSet mIntent;
+        BitSet extent;
+        BitSet intent;
     };
 };
-
-# endif //FCA_CONCEPT_H_

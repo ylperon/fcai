@@ -4,10 +4,12 @@ project(fcai)
 
 include_directories(include)
 
-set(FCAI_SRC src/fca_implication.cpp)
+set(FCAI_SRC src/fca_implication.cpp
+             src/fca_concept.cpp)
 set(TEST_SRC tests/test_util.cpp
              tests/test_bitset.cpp
-             tests/test_implication.cpp)
+             tests/test_implication.cpp
+             tests/test_concept.cpp)
 
 add_library(fcai ${FCAI_SRC})
 add_library(test ${TEST_SRC})

@@ -4,11 +4,13 @@
 
 #include "test_bitset.h"
 #include "test_implication.h"
+#include "test_concept.h"
 
 TestFunctionGroupVector InitAllTests() {
     TestFunctionGroupVector res;
     res.push_back(TestBitSetAll);
     res.push_back(TestImplicationAll);
+    res.push_back(TestConceptAll);
     return res;
 }
 
