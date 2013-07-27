@@ -1,191 +1,144 @@
-# include "fca_context.h"
+#include "fca_context.h"
 
-# include <stdexcept>
+#include <cassert>
 
-# include "fca_bitset.h"
+#include "fca_bitset.h"
 
 using namespace FCA;
 
-Context::Context() : mObjSize(0),
-                     mAttrSize(0) {}
+Context::Context() : objSize(0),
+                     attrSize(0) {
+}
 
-Context::Context(const Context& cxt) : mObjSize(cxt.mObjSize), 
-                                        mAttrSize(cxt.mAttrSize), 
-                                        mTable(cxt.mTable), 
-                                        mTableTr(cxt.mTableTr) {}
+Context::Context(const Context& cxt) : objSize(cxt.objSize),
+                                       attrSize(cxt.attrSize),
+                                       table(cxt.table),
+                                       tableTr(cxt.tableTr) {
+}
 
-Context::Context(const size_t& objSize, 
-                 const size_t& attrSize) : mObjSize(objSize),
-                                           mAttrSize(attrSize)
-{
-    mTable.resize(objSize);
-    for (std::vector<BitSet>::iterator it = mTable.begin();
-         it != mTable.end(); ++it)
-    {
+Context::Context(const size_t& objSize,
+                 const size_t& attrSize) : objSize(objSize),
+                                           attrSize(attrSize) {
+    table.resize(objSize);
+    for (BitSetVector::iterator it = table.begin(); it != table.end(); ++it) {
         it->resize(attrSize);
     }
-
-    mTableTr.resize(attrSize);
-    for (std::vector<BitSet>::iterator it = mTableTr.begin();
-         it != mTableTr.end(); ++it)
-    {
-        it->resize(attrSize);
+    tableTr.resize(attrSize);
+    for (BitSetVector::iterator it = tableTr.begin(); it != tableTr.end(); ++it) {
+        it->resize(objSize);
     }
 }
 
 Context::Context(const std::vector<std::vector<bool> >& table)
-    : mObjSize(table.size())
+    : objSize(table.size())
 {
-    mAttrSize = table.empty() ? 0 : table.front().size();
-
-    mTable.resize(mObjSize);
-    for (std::vector<BitSet>::iterator it = mTable.begin();
-         it != mTable.end(); ++it)
-    {
-        it->resize(mAttrSize);
+    attrSize = table.empty() ? 0 : table.front().size();
+    table.resize(objSize);
+    for (BitSetVector::iterator it = table.begin(); it != table.end(); ++it) {
+        it->resize(attrSize);
+    }
+    tableTr.resize(attrSize);
+    for (BitSetVector::iterator it = tableTr.begin(); it != tableTr.end(); ++it) {
+        it->resize(objSize);
     }
 
-    mTableTr.resize(mAttrSize);
-    for (std::vector<BitSet>::iterator it = mTableTr.begin();
-         it != mTableTr.end(); ++it)
-    {
-        it->resize(mAttrSize);
-    }
-
-    for (size_t objInd = 0; objInd < mObjSize; ++objInd)
-    {
-        for (size_t attrInd = 0; attrInd < mAttrSize; ++attrInd)
-        {
-            if (table[objInd][attrInd])
-            {
-                mTable[objInd].set(attrInd);
-                mTableTr[attrInd].set(objInd);
+    for (size_t objInd = 0; objInd < objSize; ++objInd) {
+        for (size_t attrInd = 0; attrInd < attrSize; ++attrInd) {
+            if (table[objInd][attrInd]) {
+                table[objInd].set(attrInd);
+                tableTr[attrInd].set(objInd);
             }
         }
     }
 }
 
-Context::Context(const std::vector<BitSet>& table)
-    : mObjSize(table.size()),
-      mTable(table)
-{
-    mAttrSize = table.empty() ? 0 : table.front().size();    
+Context::Context(const BitSetVector& table)
+    : objSize(table.size()),
+      table(table) {
+    attrSize = table.empty() ? 0 : table.front().size();
 
-    mTableTr.resize(mAttrSize);
-    for (std::vector<BitSet>::iterator it = mTableTr.begin();
-         it != mTableTr.end(); ++it)
-    {
-        it->resize(mObjSize);
+    tableTr.resize(attrSize);
+    for (BitSetVector::iterator it = tableTr.begin(); it != tableTr.end(); ++it) {
+        it->resize(objSize);
     }
 
-    for (size_t objInd = 0; objInd < mObjSize; ++objInd)
-    {
-        for (size_t attrInd = 0; attrInd < mAttrSize; ++attrInd)
-        {
-            if (table[objInd].test(attrInd))
-            {                
-                mTableTr[attrInd].set(objInd);
+    for (size_t objInd = 0; objInd < objSize; ++objInd) {
+        for (size_t attrInd = 0; attrInd < attrSize; ++attrInd) {
+            if (table[objInd].test(attrInd)) {
+                tableTr[attrInd].set(objInd);
             }
         }
     }
 }
 
-Context& Context::operator=(const Context& cxt)
-{
-    if (&cxt == this)
-    {
+Context& Context::operator=(const Context& cxt) {
+    if (&cxt == this) {
         return *this;
     }
 
-    mObjSize = cxt.mObjSize;
-    mAttrSize = cxt.mAttrSize;
-    mTable = cxt.mTable;
-    mTableTr = cxt.mTableTr;
-
+    objSize = cxt.objSize;
+    attrSize = cxt.attrSize;
+    table = cxt.table;
+    tableTr = cxt.tableTr;
     return *this;
 }
 
-void Context::Set(const size_t& objInd, const size_t& attrInd, const bool& val)
-{
-    CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in Context::Set");
-    CheckRangeAndThrowError(attrInd, mAttrSize,  "attribute index out of range in Context::Set");
-
-    if (val)
-    {
-        mTable[objInd].set(attrInd);
-        mTableTr[attrInd].set(objInd);
-    }
-    else
-    {
-        mTable[objInd].reset(attrInd);
-        mTableTr[attrInd].reset(objInd);
+void Context::Set(const size_t& objInd, const size_t& attrInd, const bool& val) {
+    assert(objInd < objSize);
+    assert(attrInd < attrSize);
+    if (val) {
+        table[objInd].set(attrInd);
+        tableTr[attrInd].set(objInd);
+    } else {
+        table[objInd].reset(attrInd);
+        tableTr[attrInd].reset(objInd);
     }
 }
 
-bool Context::Get(const size_t& objInd, const size_t& attrInd) const
-{
-    CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in Context::Get");
-    CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in Context::Get");
-
-    return mTable[objInd].test(attrInd);
+bool Context::Get(const size_t& objInd, const size_t& attrInd) const {
+    assert(objInd < objSize);
+    assert(attrInd < attrSize);
+    return table[objInd].test(attrInd);
 }
 
-const BitSet& Context::Intent(const size_t& objInd) const
-{
-    CheckRangeAndThrowError(objInd, mObjSize, "object index out of range in Context::Intent");
-
-    return mTable[objInd];
+const BitSet& Context::Intent(const size_t& objInd) const {
+    assert(objInd < objSize);
+    return table[objInd];
 }
 
-const BitSet& Context::Extent(const size_t& attrInd) const
-{
-    CheckRangeAndThrowError(attrInd, mAttrSize, "attribute index out of range in Context::Extent");
-
-    return mTableTr[attrInd];
+const BitSet& Context::Extent(const size_t& attrInd) const {
+    assert(attrInd < attrSize);
+    return tableTr[attrInd];
 }
 
-BitSet Context::DrvtAttr(const BitSet& current) const
-{
-    CheckSetSizeAndThrowError(current.size(), mAttrSize, "wrong set size in Context::DrvtAttr");
-
-    BitSet res(mObjSize);
-    for (size_t objInd = 0; objInd < mObjSize; ++objInd)
-    {
-        if (current.is_subset_of(mTable[objInd]))
-        {
+BitSet Context::DrvtAttr(const BitSet& current) const {
+    assert(corrent.size() == attrSize);
+    BitSet res(objSize);
+    for (size_t objInd = 0; objInd < objSize; ++objInd) {
+        if (current.is_subset_of(table[objInd])) {
             res.set(objInd);
         }
     }
-
     return res;
 }
 
-BitSet Context::ClosureAttr(const BitSet& current) const
-{
-    CheckSetSizeAndThrowError(current.size(), mAttrSize, "wrong set size in Context::ClosureAttr");
-
+BitSet Context::ClosureAttr(const BitSet& current) const {
+    assert(current.size() == attrSize);
     return DrvtObj(DrvtAttr(current));
 }
 
-BitSet Context::DrvtObj(const BitSet& current) const
-{
-    CheckSetSizeAndThrowError(current.size(), mObjSize, "wrong set size in Context::DrvtObj");
-
+BitSet Context::DrvtObj(const BitSet& current) const {
+    assert(current.size() == objSize);
     BitSet res(mAttrSize);
-    for (size_t attrInd = 0; attrInd < mAttrSize; ++attrInd)
-    {
-        if (current.is_subset_of(mTableTr[attrInd]))
-        {
+    for (size_t attrInd = 0; attrInd < attrSize; ++attrInd) {
+        if (current.is_subset_of(tableTr[attrInd])) {
             res.set(attrInd);
         }
     }
-
     return res;
 }
 
-BitSet Context::ClosureObj(const BitSet& current) const
-{
-    CheckSetSizeAndThrowError(current.size(), mObjSize, "wrong set size in Context::ClosureObj");
-
+BitSet Context::ClosureObj(const BitSet& current) const {
+    assert(current.size() == objSize);
     return DrvtAttr(DrvtObj(current));
 }

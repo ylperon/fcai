@@ -81,6 +81,8 @@ namespace FCA
     void ToIndList(const BasicBitSet<Block>& a, std::string& s, const std::string& delimiter = ",");
 
     typedef BasicBitSet<unsigned long> BitSet;
+#include <vector>
+    typedef std::vector<BitSet> BitSetVector;
 };
 
 /* Realization of templates */
