@@ -33,8 +33,8 @@ Context::Context(const std::vector<std::vector<bool> >& table)
     : objSize(table.size())
 {
     attrSize = table.empty() ? 0 : table.front().size();
-    table.resize(objSize);
-    for (BitSetVector::iterator it = table.begin(); it != table.end(); ++it) {
+    this->table.resize(objSize);
+    for (BitSetVector::iterator it = this->table.begin(); it != this->table.end(); ++it) {
         it->resize(attrSize);
     }
     tableTr.resize(attrSize);
@@ -45,7 +45,7 @@ Context::Context(const std::vector<std::vector<bool> >& table)
     for (size_t objInd = 0; objInd < objSize; ++objInd) {
         for (size_t attrInd = 0; attrInd < attrSize; ++attrInd) {
             if (table[objInd][attrInd]) {
-                table[objInd].set(attrInd);
+                this->table[objInd].set(attrInd);
                 tableTr[attrInd].set(objInd);
             }
         }
@@ -112,7 +112,7 @@ const BitSet& Context::Extent(const size_t& attrInd) const {
 }
 
 BitSet Context::DrvtAttr(const BitSet& current) const {
-    assert(corrent.size() == attrSize);
+    assert(current.size() == attrSize);
     BitSet res(objSize);
     for (size_t objInd = 0; objInd < objSize; ++objInd) {
         if (current.is_subset_of(table[objInd])) {
@@ -129,7 +129,7 @@ BitSet Context::ClosureAttr(const BitSet& current) const {
 
 BitSet Context::DrvtObj(const BitSet& current) const {
     assert(current.size() == objSize);
-    BitSet res(mAttrSize);
+    BitSet res(attrSize);
     for (size_t attrInd = 0; attrInd < attrSize; ++attrInd) {
         if (current.is_subset_of(tableTr[attrInd])) {
             res.set(attrInd);
