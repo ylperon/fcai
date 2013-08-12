@@ -11,6 +11,8 @@ TestFunctionVector GetAllContextTestFunctions() {
     res.push_back(TestFunction("TestContextDefaultConstructor", &TestContextDefaultConstructor));
     res.push_back(TestFunction("TestContextTwoSizeConstructor", &TestContextTwoSizeConstructor));
     res.push_back(TestFunction("TestContextBoolTableConstructor", &TestContextBoolTableConstructor));
+    res.push_back(TestFunction("TestContextBitSetTableConstructor", &TestContextBitSetTableConstructor));
+    res.push_back(TestFunction("TestContextCopyConstructor", &TestContextCopyConstructor));
     return res;
 }
 
@@ -77,6 +79,62 @@ TEST_RESULT TestContextBoolTableConstructor() {
     for (size_t i = 0; i < objSize; ++i) {
         for (size_t j = 0; j < attrSize; ++j) {
             if (c.Get(i, j) != table[i][j]) {
+                return TEST_RESULT_FAIL;
+            }
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestContextBitSetTableConstructor() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    FCA::BitSetVector table(objSize);
+    for (size_t i = 0; i < objSize; ++i) {
+        table[i].resize(attrSize);
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (i % 3 == 0 && j % 5 == 0) {
+                table[i].set(j);
+            }
+        }
+    }
+    FCA::Context c(table);
+
+    if (c.ObjSize() != objSize || c.AttrSize() != attrSize) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < objSize; ++i) {
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (c.Get(i, j) != table[i].test(j)) {
+                return TEST_RESULT_FAIL;
+            }
+        }
+    }
+    return TEST_RESULT_OK;
+
+}
+
+TEST_RESULT TestContextCopyConstructor() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    FCA::BitSetVector table(objSize);
+    for (size_t i = 0; i < objSize; ++i) {
+        table[i].resize(attrSize);
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (i % 3 == 0 && j % 5 == 0) {
+                table[i].set(j);
+            }
+        }
+    }
+    FCA::Context c1(table);
+    FCA::Context c2(c1);
+
+    if (c2.ObjSize() != objSize || c2.AttrSize() != attrSize) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < objSize; ++i) {
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (c2.Get(i, j) != table[i].test(j)) {
                 return TEST_RESULT_FAIL;
             }
         }
