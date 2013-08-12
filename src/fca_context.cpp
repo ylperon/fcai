@@ -32,7 +32,9 @@ Context::Context(const size_t& objSize,
 Context::Context(const std::vector<std::vector<bool> >& table)
     : objSize(table.size())
 {
+    assert(0 != objSize);
     attrSize = table.empty() ? 0 : table.front().size();
+    assert(0 != attrSize);
     this->table.resize(objSize);
     for (BitSetVector::iterator it = this->table.begin(); it != this->table.end(); ++it) {
         it->resize(attrSize);

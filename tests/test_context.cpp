@@ -9,6 +9,8 @@ TestFunctionGroup TestContextAll("TestContext", &TestContext);
 TestFunctionVector GetAllContextTestFunctions() {
     TestFunctionVector res;
     res.push_back(TestFunction("TestContextDefaultConstructor", &TestContextDefaultConstructor));
+    res.push_back(TestFunction("TestContextTwoSizeConstructor", &TestContextTwoSizeConstructor));
+    res.push_back(TestFunction("TestContextBoolTableConstructor", &TestContextBoolTableConstructor));
     return res;
 }
 
@@ -33,6 +35,51 @@ TEST_RESULT TestContextDefaultConstructor() {
     FCA::Context c;
     if (c.ObjSize() != 0 || c.AttrSize() != 0) {
         return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestContextTwoSizeConstructor() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    FCA::Context c(objSize, attrSize);
+
+    if (c.ObjSize() != objSize || c.AttrSize() != attrSize) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < objSize; ++i) {
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (c.Get(i, j)) {
+                return TEST_RESULT_FAIL;
+            }
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestContextBoolTableConstructor() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    std::vector<std::vector<bool> > table(objSize);
+    for (size_t i = 0; i < objSize; ++i) {
+        table[i].resize(attrSize);
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (i % 3 == 0 && j % 5 == 0) {
+                table[i][j] = true;
+            }
+        }
+    }
+    FCA::Context c(table);
+
+    if (c.ObjSize() != objSize || c.AttrSize() != attrSize) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < objSize; ++i) {
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (c.Get(i, j) != table[i][j]) {
+                return TEST_RESULT_FAIL;
+            }
+        }
     }
     return TEST_RESULT_OK;
 }
