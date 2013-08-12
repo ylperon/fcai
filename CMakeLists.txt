@@ -2,6 +2,20 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fcai)
 
+OPTION(DEBUG_MODE "Enable debug output [default: OFF]" ON)
+
+SET(CMAKE_CXX_WARN_FLAGS " -Wall -pedantic -Werror")
+
+IF(DEBUG_MODE MATCHES "ON")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
+ENDIF(DEBUG_MODE MATCHES "ON")
+
+IF(DEBUG_MODE MATCHES "ON")
+    MESSAGE(STATUS "#### ATTENTION #################################################")
+    MESSAGE(STATUS "#### Debug mode enabled. Use this option only for testing!  ####")
+    MESSAGE(STATUS "#### ATTENTION #################################################")
+ENDIF(DEBUG_MODE MATCHES "ON")
+
 include_directories(src)
 
 set(FCAI_SRC src/fca_implication.cpp
