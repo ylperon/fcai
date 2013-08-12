@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fcai)
 
-include_directories(include)
+include_directories(src)
 
 set(FCAI_SRC src/fca_implication.cpp
              src/fca_concept.cpp
