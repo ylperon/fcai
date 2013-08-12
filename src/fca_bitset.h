@@ -157,6 +157,8 @@ FCA::BasicBitSet<Block>::BasicBitSet(const FCA::BasicBitSet<Block>& a) {
     if (0 != bitsSize) {
         bits = new Block[bitsSize];
         memcpy(bits, a.bits, bitsSize * BlockSize);
+    } else {
+        bits = 0;
     }
 }
 

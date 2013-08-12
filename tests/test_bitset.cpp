@@ -36,6 +36,7 @@ TestFunctionVector GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetOperatorLessEqual", &TestBitSetOperatorLessEqual));
     res.push_back(TestFunction("TestBitSetOperatorGreater", &TestBitSetOperatorGreater));
     res.push_back(TestFunction("TestBitSetOperatorGreaterEqual", &TestBitSetOperatorGreaterEqual));
+    res.push_back(TestFunction("TestBitSetCopyConstructEmptyBitSet", &TestBitSetCopyConstructEmptyBitSet));
     return res;
 }
 
@@ -791,5 +792,11 @@ TEST_RESULT TestBitSetOperatorGreaterEqual() {
     if (!(bs1 >= bs5)) {
         return TEST_RESULT_FAIL;
     }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetCopyConstructEmptyBitSet() {
+    FCA::BitSet bs1;
+    FCA::BitSet bs2(bs1);
     return TEST_RESULT_OK;
 }
