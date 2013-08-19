@@ -85,7 +85,7 @@ Context& Context::operator=(const Context& cxt) {
     return *this;
 }
 
-void Context::Set(const size_t& objInd, const size_t& attrInd, const bool& val) {
+void Context::Set(const size_t& objInd, const size_t& attrInd, const bool val) {
     assert(objInd < objSize);
     assert(attrInd < attrSize);
     if (val) {

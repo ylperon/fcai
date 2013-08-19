@@ -15,7 +15,7 @@ namespace FCA
 
         Context &operator =(const Context& cxt);
 
-        void Set(const size_t& objInd, const size_t& attrInd, const bool& val);
+        void Set(const size_t& objInd, const size_t& attrInd, const bool val = true);
         bool Get(const size_t& objInd, const size_t& attrInd) const;
 
         size_t ObjSize() const { return objSize; }

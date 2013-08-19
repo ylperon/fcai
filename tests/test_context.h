@@ -18,3 +18,8 @@ TEST_RESULT TestContextTwoSizeConstructor();
 TEST_RESULT TestContextBoolTableConstructor();
 TEST_RESULT TestContextBitSetTableConstructor();
 TEST_RESULT TestContextCopyConstructor();
+TEST_RESULT TestContextOperatorAssign();
+TEST_RESULT TestContextSetAndGet();
+TEST_RESULT TestContextObjAndAttrSize();
+TEST_RESULT TestContextIntentGetter();
+TEST_RESULT TestContextExtentGetter();

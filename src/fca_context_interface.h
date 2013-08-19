@@ -9,7 +9,7 @@ namespace FCA
     class ContextInterface
     {
     public:
-        virtual void Set(const size_t& objInd, const size_t& attrInd, const bool& val) = 0;
+        virtual void Set(const size_t& objInd, const size_t& attrInd, const bool val) = 0;
         virtual bool Get(const size_t& objInd, const size_t& attrInd) const = 0;
 
         virtual size_t ObjSize() const = 0;
