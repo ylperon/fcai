@@ -4,7 +4,7 @@
 
 namespace FCA
 {
-    class Context : public FCA::ContextInterface
+    class Context : public ContextInterface
     {
     public:
         Context();
