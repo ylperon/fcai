@@ -4,11 +4,10 @@
 # include <string>
 
 # include "fca_context.h"
+# include "fca_named_entity_interface.h"
 
-namespace FCA
-{
-    class ContextString : public Context
-    {
+namespace FCA {
+    class ContextString : public Context, public NamedEntityInterface {
     public:
         ContextString();
         ContextString(const Context& cxt);
@@ -32,8 +31,14 @@ namespace FCA
         void SetObjName(const size_t& objInd, const std::string& name);
         const std::string& GetObjName(const size_t& objInd) const;
 
+        void SetObjNames(const std::vector<std::string> >& names);
+        const std::vector<std::string> >& GetObjNames() const;
+
         void SetAttrName(const size_t& attrInd, const std::string& name);
         const std::string& GetAttrName(const size_t& attrInd) const;
+
+        void SetAttrNames(const std::vector<std::string> >& names);
+        const std::vector<std::string> >& GetAttrNames() const;
 
         virtual ~ContextString() throw() { ;; }
 

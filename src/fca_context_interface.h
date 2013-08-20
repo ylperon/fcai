@@ -26,5 +26,4 @@ namespace FCA
 
         virtual ~ContextInterface() throw() { ;; }
     };
-
 }

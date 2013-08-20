@@ -94,6 +94,24 @@ const std::string& FCA::ContextString::GetAttrName(const size_t& attrInd) const 
     return mAttrName[attrInd];
 }
 
+void FCA::ContextString::SetObjNames(const std::vector<std::string> >& names) {
+    assert(names.size() == objSize);
+    objNames = names;
+}
+
+const std::vector<std::string> >& FCA::ContextString::GetObjNames() const {
+    return objNames;
+}
+
+void FCA::ContextString::SetAttrNames(const std::vector<std::string> >& names) {
+    assert(names.size() == attrSize);
+    attrNames = names;
+}
+
+const std::vector<std::string> >& FCA::ContextString::GetAttrNames() const {
+    return attrNames;
+}
+
 void FCA::Read(FILE* input, FCA::ContextString& cxt) {
     static const size_t MAX_NAME_LENGTH = 100000;
     static char buffer[MAX_NAME_LENGTH];
