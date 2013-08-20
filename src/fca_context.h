@@ -1,11 +1,11 @@
+#pragma once
+
 # include "fca_context_interface.h"
 
 # include <vector>
 
-namespace FCA
-{
-    class Context : public ContextInterface
-    {
+namespace FCA {
+    class Context : public ContextInterface {
     public:
         Context();
         Context(const Context& cxt);

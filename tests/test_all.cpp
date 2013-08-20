@@ -6,6 +6,7 @@
 #include "test_implication.h"
 #include "test_concept.h"
 #include "test_context.h"
+#include "test_context_string.h"
 
 TestFunctionGroupVector InitAllTests() {
     TestFunctionGroupVector res;
@@ -13,6 +14,7 @@ TestFunctionGroupVector InitAllTests() {
     res.push_back(TestImplicationAll);
     res.push_back(TestConceptAll);
     res.push_back(TestContextAll);
+    res.push_back(TestContextStringAll);
     return res;
 }
 

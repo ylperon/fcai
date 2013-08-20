@@ -10,7 +10,7 @@ namespace FCA {
     class ContextString : public Context, public NamedEntityInterface {
     public:
         ContextString();
-        ContextString(const Context& cxt);
+        explicit ContextString(const Context& cxt);
         ContextString(const ContextString& cxt);
         ContextString(const size_t& objSize, const size_t& attrSize);
         ContextString(const size_t& objSize,
@@ -31,14 +31,14 @@ namespace FCA {
         void SetObjName(const size_t& objInd, const std::string& name);
         const std::string& GetObjName(const size_t& objInd) const;
 
-        void SetObjNames(const std::vector<std::string> >& names);
-        const std::vector<std::string> >& GetObjNames() const;
+        void SetObjNames(const std::vector<std::string>& names);
+        const std::vector<std::string>& GetObjNames() const;
 
         void SetAttrName(const size_t& attrInd, const std::string& name);
         const std::string& GetAttrName(const size_t& attrInd) const;
 
-        void SetAttrNames(const std::vector<std::string> >& names);
-        const std::vector<std::string> >& GetAttrNames() const;
+        void SetAttrNames(const std::vector<std::string>& names);
+        const std::vector<std::string>& GetAttrNames() const;
 
         virtual ~ContextString() throw() { ;; }
 

@@ -2,7 +2,7 @@
 
 # include <cstring>
 # include <cassert>
-# include <exception>
+# include <stdexcept>
 
 FCA::ContextString::ContextString()
     : Context() {
@@ -10,8 +10,8 @@ FCA::ContextString::ContextString()
 
 FCA::ContextString::ContextString(const FCA::Context& cxt)
     : Context(cxt),
-    objName(cxt.objSize),
-    attrName(cxt.attrSize) {
+    objName(cxt.ObjSize()),
+    attrName(cxt.AttrSize()) {
 }
 
 FCA::ContextString::ContextString(const size_t& objSize, const size_t& attrSize)
@@ -33,8 +33,8 @@ FCA::ContextString::ContextString(const size_t& objSize,
 
 FCA::ContextString::ContextString(const std::vector<std::vector<bool> >& table)
     : Context(table) {
-        objName.resize(objName);
-        attrName.resize(attrName);
+    objName.resize(objSize);
+    attrName.resize(attrSize);
 }
 
 FCA::ContextString::ContextString(const std::vector<std::vector<bool> >& table,
@@ -43,14 +43,14 @@ FCA::ContextString::ContextString(const std::vector<std::vector<bool> >& table,
     : Context(table),
     objName(objName),
     attrName(attrName) {
-        assert(objName.size() == objSize);
-        assert(attrName.size() == attrSize);
+    assert(objName.size() == objSize);
+    assert(attrName.size() == attrSize);
 }
 
 FCA::ContextString::ContextString(const FCA::BitSetVector& table)
     : Context(table) {
-        objName.resize(objSize);
-        attrName.resize(attrSize);
+    objName.resize(objSize);
+    attrName.resize(attrSize);
 }
 
 FCA::ContextString::ContextString(const BitSetVector& table,
@@ -59,8 +59,8 @@ FCA::ContextString::ContextString(const BitSetVector& table,
     : Context(table),
     objName(objName),
     attrName(attrName) {
-        assert(objName.size() == objSize);
-        assert(attrName.size() == attrSize);
+    assert(objName.size() == objSize);
+    assert(attrName.size() == attrSize);
 }
 
 FCA::ContextString& FCA::ContextString::operator =(const ContextString& cxt) {
@@ -69,47 +69,47 @@ FCA::ContextString& FCA::ContextString::operator =(const ContextString& cxt) {
     }
 
     Context::operator=(cxt);
-    mObjName = cxt.mObjName;
-    mAttrName = cxt.mAttrName;
+    objName = cxt.objName;
+    attrName = cxt.attrName;
     return *this;
 }
 
 void FCA::ContextString::SetObjName(const size_t& objInd, const std::string& name) {
     assert(objInd < objSize);
-    mObjName[objInd] = name;
+    objName[objInd] = name;
 }
 
 const std::string& FCA::ContextString::GetObjName(const size_t& objInd) const {
     assert(objInd < objSize);
-    return mObjName[objInd];
+    return objName[objInd];
 }
 
 void FCA::ContextString::SetAttrName(const size_t& attrInd, const std::string& name) {
     assert(attrInd < attrSize);
-    mAttrName[attrInd] = name;
+    attrName[attrInd] = name;
 }
 
 const std::string& FCA::ContextString::GetAttrName(const size_t& attrInd) const {
     assert(attrInd < attrSize);
-    return mAttrName[attrInd];
+    return attrName[attrInd];
 }
 
-void FCA::ContextString::SetObjNames(const std::vector<std::string> >& names) {
+void FCA::ContextString::SetObjNames(const std::vector<std::string>& names) {
     assert(names.size() == objSize);
-    objNames = names;
+    objName = names;
 }
 
-const std::vector<std::string> >& FCA::ContextString::GetObjNames() const {
-    return objNames;
+const std::vector<std::string>& FCA::ContextString::GetObjNames() const {
+    return objName;
 }
 
-void FCA::ContextString::SetAttrNames(const std::vector<std::string> >& names) {
+void FCA::ContextString::SetAttrNames(const std::vector<std::string>& names) {
     assert(names.size() == attrSize);
-    attrNames = names;
+    attrName = names;
 }
 
-const std::vector<std::string> >& FCA::ContextString::GetAttrNames() const {
-    return attrNames;
+const std::vector<std::string>& FCA::ContextString::GetAttrNames() const {
+    return attrName;
 }
 
 void FCA::Read(FILE* input, FCA::ContextString& cxt) {
@@ -123,7 +123,7 @@ void FCA::Read(FILE* input, FCA::ContextString& cxt) {
 
     size_t objSize;
     size_t attrSize;
-    if (2 != fscanf(input, "\n%u%u\n", &objSize, &attrSize)) {
+    if (2 != fscanf(input, "\n%zd%zd\n", &objSize, &attrSize)) {
         throw std::runtime_error("two unsigned integers expected");
     }
 
@@ -175,10 +175,10 @@ void FCA::Read(FILE* input, FCA::ContextString& cxt) {
 }
 
 void FCA::Write(FILE* output, const FCA::ContextString& cxt) {
-    const size_t& objSize = cxt.SizeObj();
-    const size_t& attrSize = cxt.SizeAttr();
+    const size_t& objSize = cxt.ObjSize();
+    const size_t& attrSize = cxt.AttrSize();
 
-    fprintf(output, "B\n\n%u\n%u\n\n", objSize, attrSize);
+    fprintf(output, "B\n\n%zd\n%zd\n\n", objSize, attrSize);
     for (size_t i = 0; i < objSize; ++i) {
         fprintf(output, "%s\n", cxt.GetObjName(i).c_str());
     }
