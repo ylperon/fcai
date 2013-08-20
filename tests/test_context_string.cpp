@@ -16,6 +16,8 @@ TestFunctionVector GetAllContextStringTestFunctions() {
     res.push_back(TestFunction("TestContextStringBitSetTableConstructor", &TestContextStringBitSetTableConstructor));
     res.push_back(TestFunction("TestContextStringBoolTableAndNamesConstructor", &TestContextStringBoolTableAndNamesConstructor));
     res.push_back(TestFunction("TestContextStringBitSetTableAndNamesConstructor", &TestContextStringBitSetTableAndNamesConstructor));
+    res.push_back(TestFunction("TestContextStringSetAndGetObjName", &TestContextStringSetAndGetObjName));
+    res.push_back(TestFunction("TestContextStringSetAndGetObjNames", &TestContextStringSetAndGetObjNames));
     return res;
 }
 
@@ -297,4 +299,64 @@ TEST_RESULT TestContextStringBitSetTableAndNamesConstructor() {
     }
     return TEST_RESULT_OK;
 
+}
+
+TEST_RESULT TestContextStringSetAndGetObjName() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    FCA::ContextString c(objSize, attrSize);
+
+    std::vector<std::string> objName(objSize);
+    objName[0] = "o";
+    for (size_t i = 1; i < objSize; ++i) {
+        objName[i] = objName[i - 1] + "o";
+    }
+    std::vector<std::string> attrName(attrSize);
+    attrName[0] = "a";
+    for (size_t i = 1; i < attrSize; ++i) {
+        attrName[i] = attrName[i - 1] + "a";
+    }
+
+    for (size_t i = 0; i < objSize; ++i) {
+        c.SetObjName(i, objName[i]);
+    }
+    for (size_t i = 0; i < attrSize; ++i) {
+        c.SetAttrName(i, attrName[i]);
+    }
+
+    for (size_t i = 0; i < objSize; ++i) {
+        if (c.GetObjName(i) != objName[i]) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    for (size_t i = 0; i < attrSize; ++i) {
+        if (c.GetAttrName(i) != attrName[i]) {
+            return TEST_RESULT_FAIL;
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestContextStringSetAndGetObjNames() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    FCA::ContextString c(objSize, attrSize);
+
+    std::vector<std::string> objName(objSize);
+    objName[0] = "o";
+    for (size_t i = 1; i < objSize; ++i) {
+        objName[i] = objName[i - 1] + "o";
+    }
+    std::vector<std::string> attrName(attrSize);
+    attrName[0] = "a";
+    for (size_t i = 1; i < attrSize; ++i) {
+        attrName[i] = attrName[i - 1] + "a";
+    }
+
+    c.SetObjNames(objName);
+    c.SetAttrNames(attrName);
+    if (c.GetObjNames() != objName || c.GetAttrNames() != attrName) {
+        return TEST_RESULT_FAIL;
+    }
+    return TEST_RESULT_OK;
 }

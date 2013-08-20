@@ -21,3 +21,5 @@ TEST_RESULT TestContextStringBoolTableConstructor();
 TEST_RESULT TestContextStringBitSetTableConstructor();
 TEST_RESULT TestContextStringBoolTableAndNamesConstructor();
 TEST_RESULT TestContextStringBitSetTableAndNamesConstructor();
+TEST_RESULT TestContextStringSetAndGetObjName();
+TEST_RESULT TestContextStringSetAndGetObjNames();
