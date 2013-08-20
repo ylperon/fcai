@@ -20,15 +20,11 @@ FCA::ContextString::ContextString(const size_t& objSize, const size_t& attrSize)
     attrName(attrSize) {
 }
 
-FCA::ContextString::ContextString(const size_t& objSize,
-                                  const size_t& attrSize,
-                                  const std::vector<std::string>& objName,
+FCA::ContextString::ContextString(const std::vector<std::string>& objName,
                                   const std::vector<std::string>& attrName)
-    : Context(objSize, attrSize),
+    : Context(objName.size(), attrName.size()),
     objName(objName),
     attrName(attrName) {
-        assert(objSize == objName.size());
-        assert(attrSize == attrName.size());
 }
 
 FCA::ContextString::ContextString(const std::vector<std::vector<bool> >& table)

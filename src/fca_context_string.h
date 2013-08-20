@@ -13,9 +13,7 @@ namespace FCA {
         explicit ContextString(const Context& cxt);
         ContextString(const ContextString& cxt);
         ContextString(const size_t& objSize, const size_t& attrSize);
-        ContextString(const size_t& objSize,
-                      const size_t& attrSize,
-                      const std::vector<std::string>& objName,
+        ContextString(const std::vector<std::string>& objName,
                       const std::vector<std::string>& attrName);
         explicit ContextString(const std::vector<std::vector<bool> >& table);
         ContextString(const std::vector<std::vector<bool> >& table,
