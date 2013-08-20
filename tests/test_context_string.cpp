@@ -14,6 +14,8 @@ TestFunctionVector GetAllContextStringTestFunctions() {
     res.push_back(TestFunction("TestContextStringNamesConstructor", &TestContextStringNamesConstructor));
     res.push_back(TestFunction("TestContextStringBoolTableConstructor", &TestContextStringBoolTableConstructor));
     res.push_back(TestFunction("TestContextStringBitSetTableConstructor", &TestContextStringBitSetTableConstructor));
+    res.push_back(TestFunction("TestContextStringBoolTableAndNamesConstructor", &TestContextStringBoolTableAndNamesConstructor));
+    res.push_back(TestFunction("TestContextStringBitSetTableAndNamesConstructor", &TestContextStringBitSetTableAndNamesConstructor));
     return res;
 }
 
@@ -212,4 +214,87 @@ TEST_RESULT TestContextStringBitSetTableConstructor() {
         }
     }
     return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestContextStringBoolTableAndNamesConstructor() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    std::vector<std::vector<bool> > table(objSize);
+    for (size_t i = 0; i < objSize; ++i) {
+        table[i].resize(attrSize);
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (i % 3 == 0 && j % 5 == 0) {
+                table[i][j] = true;
+            }
+        }
+    }
+    std::vector<std::string> objName(objSize);
+    objName[0] = "o";
+    for (size_t i = 1; i < objSize; ++i) {
+        objName[i] = objName[i - 1] + "o";
+    }
+
+    std::vector<std::string> attrName(attrSize);
+    attrName[0] = "a";
+    for (size_t i = 1; i < attrSize; ++i) {
+        attrName[i] = attrName[i - 1] + "a";
+    }
+    FCA::ContextString c(table, objName, attrName);
+
+    if (c.ObjSize() != objSize || c.AttrSize() != attrSize) {
+        return TEST_RESULT_FAIL;
+    }
+    if (c.GetObjNames() != objName || c.GetAttrNames() != attrName) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < objSize; ++i) {
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (c.Get(i, j) != table[i][j]) {
+                return TEST_RESULT_FAIL;
+            }
+        }
+    }
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestContextStringBitSetTableAndNamesConstructor() {
+    const size_t objSize = 100;
+    const size_t attrSize = 200;
+    FCA::BitSetVector table(objSize);
+    for (size_t i = 0; i < objSize; ++i) {
+        table[i].resize(attrSize);
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (i % 3 == 0 && j % 5 == 0) {
+                table[i].set(j);
+            }
+        }
+    }
+    std::vector<std::string> objName(objSize);
+    objName[0] = "o";
+    for (size_t i = 1; i < objSize; ++i) {
+        objName[i] = objName[i - 1] + "o";
+    }
+
+    std::vector<std::string> attrName(attrSize);
+    attrName[0] = "a";
+    for (size_t i = 1; i < attrSize; ++i) {
+        attrName[i] = attrName[i - 1] + "a";
+    }
+    FCA::ContextString c(table, objName, attrName);
+
+    if (c.ObjSize() != objSize || c.AttrSize() != attrSize) {
+        return TEST_RESULT_FAIL;
+    }
+    if (c.GetObjNames() != objName || c.GetAttrNames() != attrName) {
+        return TEST_RESULT_FAIL;
+    }
+    for (size_t i = 0; i < objSize; ++i) {
+        for (size_t j = 0; j < attrSize; ++j) {
+            if (c.Get(i, j) != table[i].test(j)) {
+                return TEST_RESULT_FAIL;
+            }
+        }
+    }
+    return TEST_RESULT_OK;
+
 }

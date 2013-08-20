@@ -19,3 +19,5 @@ TEST_RESULT TestContextStringTwoSizeConstructor();
 TEST_RESULT TestContextStringNamesConstructor();
 TEST_RESULT TestContextStringBoolTableConstructor();
 TEST_RESULT TestContextStringBitSetTableConstructor();
+TEST_RESULT TestContextStringBoolTableAndNamesConstructor();
+TEST_RESULT TestContextStringBitSetTableAndNamesConstructor();
