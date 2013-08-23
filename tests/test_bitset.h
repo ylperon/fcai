@@ -41,3 +41,4 @@ TEST_RESULT TestBitSetOperatorLess();
 TEST_RESULT TestBitSetOperatorLessEqual();
 TEST_RESULT TestBitSetOperatorGreater();
 TEST_RESULT TestBitSetOperatorGreaterEqual();
+TEST_RESULT TestBitSetIsPrefixEqual();

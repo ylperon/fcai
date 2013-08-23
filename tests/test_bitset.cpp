@@ -37,6 +37,7 @@ TestFunctionVector GetAllBitSetTestFunctions() {
     res.push_back(TestFunction("TestBitSetOperatorGreater", &TestBitSetOperatorGreater));
     res.push_back(TestFunction("TestBitSetOperatorGreaterEqual", &TestBitSetOperatorGreaterEqual));
     res.push_back(TestFunction("TestBitSetCopyConstructEmptyBitSet", &TestBitSetCopyConstructEmptyBitSet));
+    res.push_back(TestFunction("TestBitSetIsPrefixEqual", &TestBitSetIsPrefixEqual));
     return res;
 }
 
@@ -798,5 +799,51 @@ TEST_RESULT TestBitSetOperatorGreaterEqual() {
 TEST_RESULT TestBitSetCopyConstructEmptyBitSet() {
     FCA::BitSet bs1;
     FCA::BitSet bs2(bs1);
+    return TEST_RESULT_OK;
+}
+
+TEST_RESULT TestBitSetIsPrefixEqual() {
+    const size_t length = 100;
+    const size_t lenPrefix = 69;
+    FCA::BitSet bs1(length);
+    FCA::BitSet bs2(length);
+    for (size_t i = 0; i < lenPrefix; ++i) {
+        if (i % 3 == 0) {
+            bs1.set(i);
+            bs2.set(i);
+        }
+    }
+    for (size_t i = lenPrefix; i < length; ++i) {
+        bs1.set(i);
+    }
+
+    if (!bs1.is_prefix_equal(bs2, lenPrefix)) {
+        return TEST_RESULT_FAIL;
+    }
+
+    bs1.set(34);
+    if (bs1.is_prefix_equal(bs2, lenPrefix)) {
+        return TEST_RESULT_FAIL;
+    }
+    bs1.reset(34);
+
+    bs1.set(68);
+    if (bs1.is_prefix_equal(bs2, lenPrefix)) {
+        return TEST_RESULT_FAIL;
+    }
+    bs1.reset(68);
+
+    bs1.set(64);
+    if (bs1.is_prefix_equal(bs2, lenPrefix)) {
+        return TEST_RESULT_FAIL;
+    }
+    bs1.reset(64);
+
+    bs1.set(65);
+    if (bs1.is_prefix_equal(bs2, lenPrefix)) {
+        return TEST_RESULT_FAIL;
+    }
+    bs1.reset(65);
+
     return TEST_RESULT_OK;
 }

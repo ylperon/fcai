@@ -34,6 +34,8 @@ namespace FCA
         bool is_subset_of(const BasicBitSet& a) const;
         bool is_proper_subset_of(const BasicBitSet& a) const;
 
+        bool is_prefix_equal(const BasicBitSet& a, const size_t length) const;
+
         size_t size() const;
         void resize(const size_t length);
 
@@ -262,6 +264,26 @@ bool FCA::BasicBitSet<Block>::is_proper_subset_of(const FCA::BasicBitSet<Block>&
         }
     }
     return !equal;
+}
+
+template <typename Block>
+bool FCA::BasicBitSet<Block>::is_prefix_equal(const FCA::BasicBitSet<Block>& a, const size_t length) const {
+    assert(this->length >= length);
+    assert(a.length >= length);
+    const size_t bytesToCheck = length / 8;
+    if (memcmp(bits, a.bits, bytesToCheck) != 0) {
+        return false;
+    }
+    const size_t indBlock = ::BlockInd<Block>(length - 1);
+    const size_t lastBit = ::BitIndInBlock<Block>(length);
+    const Block& thisBlock = bits[indBlock];
+    const Block& aBlock = a.bits[indBlock];
+    for (size_t i = ::BitIndInBlock<Block>(bytesToCheck * 8); i < lastBit; ++i) {
+        if (::GetBitVal(thisBlock, i) != ::GetBitVal(aBlock, i)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 template <typename Block>
